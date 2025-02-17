@@ -6,10 +6,10 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';  // Tema do Pr
 import 'primereact/resources/primereact.min.css';  // Estilos principais
 import 'primeicons/primeicons.css';  // Ícones do PrimeReact
 
-import LogInPage from './pages/public/LoginPage';
+import AppRoutes from './routes';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <LogInPage/>
+    <AppRoutes/>
   </StrictMode>,
 )
