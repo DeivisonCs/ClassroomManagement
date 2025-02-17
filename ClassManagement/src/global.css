@@ -1,7 +1,10 @@
 * {
-    margin: 0;
     font-family: 'League Spartan', Arial, Helvetica, sans-serif;
     box-sizing: border-box;
+}
+
+body {
+    margin: 0;
 }
 
 .league-spartan-font {

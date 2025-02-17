@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import './styles.css';
 
 import {Button} from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
+import { Toast } from 'primereact/toast';
+
+enum ToastSeverity {
+    SUCCESS = 'success',
+    ERROR = 'error'
+}
+        
 
 const LogInPage:React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const toast = useRef<Toast>(null);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
+    const show = (severity: ToastSeverity, summary: string, message: string) => {
+        toast.current?.show({ severity: severity, summary: summary, detail: message });
+    };
+
+    function login() {
+        //TODO
+        // chamar back-end e receber o token aqui
+
+        show(ToastSeverity.SUCCESS, 'Logado', 'Bem Vindo!'); // Usar retorno do back pra editar a mensagem
+    }
 
     return (
     <section id="login-section">
+        <Toast ref={toast} />
         <div className="logo-img-div">
             <img src="/SchoolEmblem.png" alt="School Emblem" />
         </div>
@@ -41,7 +60,7 @@ const LogInPage:React.FC = () => {
                     />
                 </div>
 
-                <Button label="Logar" rounded size="large"/>
+                <Button onClick={() => login()} label="Logar" rounded size="large"/>
             </div>
         </div>        
     </section>
