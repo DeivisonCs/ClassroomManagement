@@ -1,4 +1,4 @@
-section#home-section {
+section#page-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,5 +14,15 @@ section#home-section {
         gap: 50px;
 
         width: 100%;
+    }
+
+    h1#main-page-title {
+        position: absolute;
+
+        left: 50px;
+        top: 100px;
+
+        color: #5F6368;
+        font-size: 3em;
     }
 }

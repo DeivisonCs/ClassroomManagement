@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderComponent from "../../../components/HeaderComponent";
 
 import "./styles.css";
@@ -38,7 +38,7 @@ const HomePage:React.FC = () => {
 
     //TODO - Verificar se o usuário está realmente logado, para bloquear acesso pela url
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         validUrl();
         capitalizePageTitle();
     }, []);
@@ -52,9 +52,7 @@ const HomePage:React.FC = () => {
     }
 
     function capitalizePageTitle() {
-        let str = page!.toString();
-
-        str.split(' ')
+        let str = page!.split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(' ');
 
@@ -62,16 +60,20 @@ const HomePage:React.FC = () => {
     }
 
     return(
-        <section id="home-section">
-            <HeaderComponent/>
-            <h1>{pageTitle}</h1>
+        <>
+        <HeaderComponent/>
+        <section id="page-section">
+            <h1 id="main-page-title">{pageTitle}</h1>
 
             <div id="page-options">
-                {pageOptions.map((option, idx) => {
-                    return <PageLinkComponent key={idx} label={option.label} icon={option.icon} linkTo={option.linkTo}/>
-                })}
+                {Array.isArray(pageOptions) && pageOptions.length != 0 &&
+                    pageOptions.map((option, idx) => {
+                        return <PageLinkComponent key={idx} label={option.label} icon={option.icon} linkTo={option.linkTo}/>
+                    })
+                }
             </div>
         </section>
+        </>
     );
 
 }
