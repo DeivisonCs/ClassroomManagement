@@ -12,9 +12,9 @@ interface PageOptionProps {
 
 const HomePage:React.FC = () => {
     const pageOption:PageOptionProps[] = [
-        {label: 'Disciplinas', icon:'book', linkTo:'/'},
-        {label: 'Salas', icon:'building-columns', linkTo:'/'},
-        {label: 'Usuários', icon:'user', linkTo:'/'}
+        {label: 'Disciplinas', icon:'book', linkTo:'/home'},
+        {label: 'Salas', icon:'building-columns', linkTo:'/home'},
+        {label: 'Usuários', icon:'user', linkTo:'/home'}
     ]
     //TODO 
     // Verificar se o usuário está realmente logado, para bloquear acesso pela url

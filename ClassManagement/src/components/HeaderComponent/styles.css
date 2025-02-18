@@ -23,7 +23,6 @@ header#main-header {
     }
 
     div.header-menu-div {
-        /* background-color: aqua; */
         cursor: pointer;
         height: 45px;
         width: 45px;
