@@ -32,7 +32,7 @@ const LogInPage:React.FC = () => {
         
         show(ToastSeverity.SUCCESS, 'Logado', 'Bem Vindo!'); // Usar retorno do back pra editar a mensagem
         setTimeout(() => {
-            navigate('/home');
+            navigate('/ifba/home');
         }, 2500);
     }
 
