@@ -6,6 +6,7 @@ import {Button} from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Toast } from 'primereact/toast';
+import { useNavigate } from "react-router-dom";
 
 enum ToastSeverity {
     SUCCESS = 'success',
@@ -15,6 +16,7 @@ enum ToastSeverity {
 
 const LogInPage:React.FC = () => {
     const toast = useRef<Toast>(null);
+    const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [logged, setLogged] = useState(false);
@@ -23,11 +25,15 @@ const LogInPage:React.FC = () => {
         toast.current?.show({ severity: severity, summary: summary, detail: message });
     };
 
+    //TODO
+    // chamar back-end e receber o token aqui
     function login() {
-        //TODO
-        // chamar back-end e receber o token aqui
         setLogged(true);
+        
         show(ToastSeverity.SUCCESS, 'Logado', 'Bem Vindo!'); // Usar retorno do back pra editar a mensagem
+        setTimeout(() => {
+            navigate('/home');
+        }, 2500);
     }
 
     return (

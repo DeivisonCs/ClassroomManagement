@@ -9,7 +9,7 @@ section#login-section {
     height: 100vh;
 
     .logo-img-div {
-        background-color: #a51c30;
+        background-color: var(--main-color);
         width: 30%;
 
         display: flex;
@@ -79,12 +79,12 @@ section#login-section .forms-div .inputs-fields{
 
     button {
         margin-top: 40px;
-        background-color: #a51c30;
+        background-color: var(--main-color);
         border: none;
 
         &:hover {
-            background-color: #f5df91;
-            box-shadow: 0px 0px 7px #f5df91;
+            background-color: var(--secondary-color);
+            box-shadow: 0px 0px 7px var(--secondary-color);
         }
     }
 }

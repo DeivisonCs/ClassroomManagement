@@ -1,3 +1,8 @@
+:root {
+    --main-color: #a51c30;
+    --secondary-color: #f5df91;
+}
+
 * {
     font-family: 'League Spartan', Arial, Helvetica, sans-serif;
     box-sizing: border-box;
