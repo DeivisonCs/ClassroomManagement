@@ -17,6 +17,7 @@ const LogInPage:React.FC = () => {
     const toast = useRef<Toast>(null);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [logged, setLogged] = useState(false);
 
     const show = (severity: ToastSeverity, summary: string, message: string) => {
         toast.current?.show({ severity: severity, summary: summary, detail: message });
@@ -25,21 +26,21 @@ const LogInPage:React.FC = () => {
     function login() {
         //TODO
         // chamar back-end e receber o token aqui
-
+        setLogged(true);
         show(ToastSeverity.SUCCESS, 'Logado', 'Bem Vindo!'); // Usar retorno do back pra editar a mensagem
     }
 
     return (
     <section id="login-section">
         <Toast ref={toast} />
-        <div className="logo-img-div">
-            <img src="/SchoolEmblem.png" alt="School Emblem" />
+        <div className={`logo-img-div ${logged?'emblem-animation-div':''}`}>
+            <img className={logged?'emblem-animation':''} src="/SchoolEmblem.png" alt="School Emblem" />
         </div>
 
-        <div className="forms-div">
-            <h1>Log In</h1>
+        <div className={`forms-div ${logged?'form-animation-div':''}`}>
+            <h1 className={logged?'login-forms-animation':''}>Log In</h1>
 
-            <div className="inputs-fields">
+            <div className={`inputs-fields ${logged?'login-forms-animation':''}`}>
                 <div>
                     <label htmlFor="email">Email</label>
                     <InputText

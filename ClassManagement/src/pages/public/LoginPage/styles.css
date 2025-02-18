@@ -71,7 +71,7 @@ section#login-section .forms-div .inputs-fields{
 
                 .p-input-icon{
                     position: absolute;
-                    top: 34%;
+                    top: 50%;
                 }
             }
         }
@@ -106,5 +106,62 @@ section#login-section .forms-div .inputs-fields{
         .forms-div {
             width: 100%;
         }
+    }
+}
+
+section#login-section {
+    .emblem-animation-div {
+        animation: emblem-div-animation 2s 0s forwards;
+
+        .emblem-animation {
+            animation: emblem-animation 1s 0s forwards;
+        }
+    }
+
+    .form-animation-div {
+        animation: form-div-animation 2s 0s forwards;
+
+        .login-forms-animation{
+            animation: login-forms-animation 1s 0s forwards;
+        }
+    }
+}
+
+@keyframes emblem-div-animation{
+    from {
+        width: 30%;
+    }
+    to{
+        width: 100vw;
+    }
+}
+
+@keyframes emblem-animation{
+    from {
+        width: 80%;
+    }
+    to{
+        width: 40%;
+    }
+}
+
+@keyframes form-div-animation{
+    from {
+        width: 70%;
+    }
+    to{
+        width: 0vw;
+        display: none;
+        height: 100vh;
+    }
+}
+
+@keyframes login-forms-animation{
+    from {
+        opacity: 100%;
+    }
+    to{
+        opacity: 0%;
+        display: none;
     }
 }
