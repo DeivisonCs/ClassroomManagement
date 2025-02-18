@@ -9,7 +9,8 @@ header#main-header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: relative;
+    position: absolute;
+    top: 0;
 
     span.header-emblem-icon-span {
         display: block;

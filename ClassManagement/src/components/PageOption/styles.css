@@ -1,0 +1,44 @@
+
+div.linkToPage-div {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    a.pagelink {
+        text-decoration: none;
+        background-color: #dadada;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span.linkpage-icon {
+            color: #5F6368;
+            font-size: 2em;
+        }
+
+        &:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0px 0px 4px 3px var(--secondary-color);
+            span.linkpage-icon {
+                color: #fff;
+            }
+
+            & ~ span{
+                color: var(--main-color);
+            }
+        }
+    }
+    
+    span.linkpage-label {
+        color: #5F6368;
+        font-weight: 700;
+    }
+}
