@@ -11,8 +11,8 @@ const pageMenuOptions = {
         { label: 'Usuários', icon: 'user', linkTo: '/ifba/home' }
     ],
     users: [
-        { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/home' },
-        { label: 'Usuários', icon: 'user', linkTo: '/ifba/home' }
+        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/adduser' },
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/home' }
     ],
     classroom: []
 };

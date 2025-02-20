@@ -1,0 +1,42 @@
+section#user-add-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10%;
+
+    height: 100vh;
+
+    div.title-div{
+        position: absolute;
+        left: 50px;
+        top: 100px;
+
+        .page-title {            
+            color: #5F6368;
+            font-size: 3em;
+            margin: 0;
+        }
+        h2.sub-page-title {
+            text-align: end;
+            font-size: 1.6em;
+        }
+    
+    }
+
+    div#user-form-div {
+        background-color: cyan;
+
+        display: grid;
+        grid-template-columns: 50% 50%;
+        gap: 70px;
+
+        div{
+            input{
+                width: 100%;
+                border-radius: 0;
+                background-color: #dadada;
+                border-bottom: 1px solid #000;
+            }
+        }
+    }
+}
