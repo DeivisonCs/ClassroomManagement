@@ -1,36 +1,35 @@
-package main.java.com.ifba.salas_service.controllers;
+package com.ifba.salas_service.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import main.java.com.ifba.salas_service.models.Sala;
-import main.java.com.ifba.salas_service.services.SalaService;
+import com.ifba.salas_service.dtos.SalaDTO;
+import com.ifba.salas_service.services.SalaService;
 
 @RestController
 @RequestMapping("/api/salas")
 public class SalaController {
-
     @Autowired
     private SalaService salaService;
 
     @GetMapping
-    public List<Sala> listarSalas() {
+    public List<SalaDTO> listarSalas() {
         return salaService.listarSalas();
     }
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Sala> buscarPorCodigo(@PathVariable String codigo) {
-        Optional<Sala> sala = salaService.buscarPorCodigo(codigo);
-        return sala.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<SalaDTO> buscarPorId(@PathVariable Long id) {
+        SalaDTO salaDTO = salaService.buscarPorId(id);
+        return ResponseEntity.ok(salaDTO);
     }
 
     @PostMapping
-    public Sala salvarSala(@RequestBody Sala sala) {
-        return salaService.salvarSala(sala);
+    public ResponseEntity<SalaDTO> salvarSala(@RequestBody SalaDTO salaDTO) {
+        SalaDTO savedSalaDTO = salaService.salvarSala(salaDTO);
+        return ResponseEntity.ok(savedSalaDTO);
     }
 
     @DeleteMapping("/{id}")
