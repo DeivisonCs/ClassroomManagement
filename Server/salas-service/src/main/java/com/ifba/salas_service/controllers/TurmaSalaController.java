@@ -13,49 +13,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ifba.salas_service.dtos.request.SalaRequestDTO;
-import com.ifba.salas_service.dtos.response.SalaResponseDTO;
-import com.ifba.salas_service.services.SalaService;
+import com.ifba.salas_service.dtos.request.TurmaSalaRequestDTO;
+import com.ifba.salas_service.dtos.response.TurmaSalaResponseDTO;
+import com.ifba.salas_service.services.TurmaSalaService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/salas")
+@RequestMapping("/api/turmas-salas")
 @RequiredArgsConstructor
-public class SalaController {
+public class TurmaSalaController {
 
-    private final SalaService salaService;
+    private final TurmaSalaService turmaSalaService;
 
     @PostMapping
-    public ResponseEntity<SalaResponseDTO> criarSala(@RequestBody SalaRequestDTO dto) {
-        SalaResponseDTO response = salaService.criarSala(dto);
+    public ResponseEntity<TurmaSalaResponseDTO> criar(@RequestBody TurmaSalaRequestDTO dto) {
+        TurmaSalaResponseDTO response = turmaSalaService.criarTurmaSala(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SalaResponseDTO> atualizarSala(
+    public ResponseEntity<TurmaSalaResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody SalaRequestDTO dto
+            @RequestBody TurmaSalaRequestDTO dto
     ) {
-        SalaResponseDTO response = salaService.atualizarSala(id, dto);
+        TurmaSalaResponseDTO response = turmaSalaService.atualizarTurmaSala(id, dto);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SalaResponseDTO> buscarPorId(@PathVariable Long id) {
-        SalaResponseDTO response = salaService.buscarPorId(id);
+    public ResponseEntity<TurmaSalaResponseDTO> buscarPorId(@PathVariable Long id) {
+        TurmaSalaResponseDTO response = turmaSalaService.buscarPorId(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<SalaResponseDTO>> listarTodas() {
-        List<SalaResponseDTO> lista = salaService.listarTodas();
+    public ResponseEntity<List<TurmaSalaResponseDTO>> listarTodos() {
+        List<TurmaSalaResponseDTO> lista = turmaSalaService.listarTodos();
         return ResponseEntity.ok(lista);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarSala(@PathVariable Long id) {
-        salaService.deletarSala(id);
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        turmaSalaService.deletarTurmaSala(id);
         return ResponseEntity.noContent().build();
     }
 }

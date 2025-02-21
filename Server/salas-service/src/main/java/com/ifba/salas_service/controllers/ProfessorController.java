@@ -13,49 +13,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ifba.salas_service.dtos.request.SalaRequestDTO;
-import com.ifba.salas_service.dtos.response.SalaResponseDTO;
-import com.ifba.salas_service.services.SalaService;
+import com.ifba.salas_service.dtos.request.ProfessorRequestDTO;
+import com.ifba.salas_service.dtos.response.ProfessorResponseDTO;
+import com.ifba.salas_service.services.ProfessorService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/salas")
+@RequestMapping("/api/professores")
 @RequiredArgsConstructor
-public class SalaController {
+public class ProfessorController {
 
-    private final SalaService salaService;
+    private final ProfessorService professorService;
 
     @PostMapping
-    public ResponseEntity<SalaResponseDTO> criarSala(@RequestBody SalaRequestDTO dto) {
-        SalaResponseDTO response = salaService.criarSala(dto);
+    public ResponseEntity<ProfessorResponseDTO> criarProfessor(@RequestBody ProfessorRequestDTO dto) {
+        ProfessorResponseDTO response = professorService.criarProfessor(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SalaResponseDTO> atualizarSala(
+    public ResponseEntity<ProfessorResponseDTO> atualizarProfessor(
             @PathVariable Long id,
-            @RequestBody SalaRequestDTO dto
+            @RequestBody ProfessorRequestDTO dto
     ) {
-        SalaResponseDTO response = salaService.atualizarSala(id, dto);
+        ProfessorResponseDTO response = professorService.atualizarProfessor(id, dto);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SalaResponseDTO> buscarPorId(@PathVariable Long id) {
-        SalaResponseDTO response = salaService.buscarPorId(id);
+    public ResponseEntity<ProfessorResponseDTO> buscarPorId(@PathVariable Long id) {
+        ProfessorResponseDTO response = professorService.buscarPorId(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<SalaResponseDTO>> listarTodas() {
-        List<SalaResponseDTO> lista = salaService.listarTodas();
+    public ResponseEntity<List<ProfessorResponseDTO>> listarTodos() {
+        List<ProfessorResponseDTO> lista = professorService.listarTodos();
         return ResponseEntity.ok(lista);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarSala(@PathVariable Long id) {
-        salaService.deletarSala(id);
+    public ResponseEntity<Void> deletarProfessor(@PathVariable Long id) {
+        professorService.deletarProfessor(id);
         return ResponseEntity.noContent().build();
     }
 }
