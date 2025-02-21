@@ -8,7 +8,7 @@ const pageMenuOptions = {
     home: [
         { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/home' },
         { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/home' },
-        { label: 'Usuários', icon: 'user', linkTo: '/ifba/home' }
+        { label: 'Usuários', icon: 'user', linkTo: '/ifba/users' }
     ],
     users: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/adduser' },
@@ -28,7 +28,7 @@ const HomePage = () => {
     useEffect(() => {
         validUrl();
         capitalizePageTitle();
-    }, []);
+    }, [page]);
 
     const validUrl = () => {
         if (!Object.keys(pageMenuOptions).includes(page)) {

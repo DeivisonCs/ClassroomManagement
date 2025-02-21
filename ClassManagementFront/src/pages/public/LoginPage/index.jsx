@@ -14,7 +14,7 @@ const LogInPage = () => {
     const [logged, setLogged] = useState(false);
 
     const show = (severity, summary, message) => {
-        toast.current?.show({ severity: severity, summary: summary, detail: message });
+        toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
     };
 
     //TODO
