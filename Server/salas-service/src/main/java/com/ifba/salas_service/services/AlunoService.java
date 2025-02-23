@@ -10,7 +10,9 @@ import com.ifba.salas_service.dtos.response.AlunoResponseDTO;
 import com.ifba.salas_service.exceptions.ResourceNotFoundException;
 import com.ifba.salas_service.mappers.AlunoMapper;
 import com.ifba.salas_service.models.Aluno;
+import com.ifba.salas_service.models.Turma;
 import com.ifba.salas_service.repositories.AlunoRepository;
+import com.ifba.salas_service.repositories.TurmaRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +21,17 @@ import lombok.RequiredArgsConstructor;
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
+    private final TurmaRepository turmaRepository;
 
     public AlunoResponseDTO criarAluno(AlunoRequestDTO dto) {
         Aluno aluno = AlunoMapper.toEntity(dto);
+
+        // Buscar as turmas pelo ID
+        if (dto.getTurmaIds() != null) {
+            List<Turma> turmas = turmaRepository.findAllById(dto.getTurmaIds());
+            aluno.setTurmas(turmas);
+        }
+
         Aluno saved = alunoRepository.save(aluno);
         return AlunoMapper.toResponseDTO(saved);
     }
@@ -29,7 +39,15 @@ public class AlunoService {
     public AlunoResponseDTO atualizarAluno(Long id, AlunoRequestDTO dto) {
         Aluno aluno = alunoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+        
         aluno.setNome(dto.getNome());
+
+        // Atualiza as turmas do aluno
+        if (dto.getTurmaIds() != null) {
+            List<Turma> turmas = turmaRepository.findAllById(dto.getTurmaIds());
+            aluno.setTurmas(turmas);
+        }
+
         return AlunoMapper.toResponseDTO(alunoRepository.save(aluno));
     }
 
@@ -51,4 +69,18 @@ public class AlunoService {
         }
         alunoRepository.deleteById(id);
     }
+
+    public void adicionarAlunoATurma(Long alunoId, Long turmaId) {
+        Aluno aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+        Turma turma = turmaRepository.findById(turmaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada"));
+    
+        aluno.getTurmas().add(turma);
+        turma.getAlunos().add(aluno); 
+    
+        alunoRepository.save(aluno);
+        turmaRepository.save(turma); 
+    }
 }
+

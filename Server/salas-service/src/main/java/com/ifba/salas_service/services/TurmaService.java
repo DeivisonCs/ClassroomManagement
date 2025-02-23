@@ -30,32 +30,50 @@ public class TurmaService {
     public TurmaResponseDTO criarTurma(TurmaRequestDTO dto) {
         Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada"));
-
+    
         List<Aluno> alunos = carregarAlunos(dto.getAlunosIds());
-
+    
         Turma turma = TurmaMapper.toEntity(dto, disciplina, alunos);
-
+    
+        for (Aluno aluno : alunos) {
+            aluno.getTurmas().add(turma);
+        }
+    
         Turma saved = turmaRepository.save(turma);
-
+    
+        
+        for (Aluno aluno : alunos) {
+            alunoRepository.save(aluno);
+        }
+    
         return TurmaMapper.toResponseDTO(saved);
     }
 
     public TurmaResponseDTO atualizarTurma(Long id, TurmaRequestDTO dto) {
-        Turma turma = turmaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada"));
+    Turma turma = turmaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Turma não encontrada"));
 
-        Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada"));
+    Disciplina disciplina = disciplinaRepository.findById(dto.getDisciplinaId())
+            .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada"));
 
-        List<Aluno> alunos = carregarAlunos(dto.getAlunosIds());
+    List<Aluno> alunos = carregarAlunos(dto.getAlunosIds());
 
-        turma.setNome(dto.getNome());
-        turma.setDisciplina(disciplina);
-        turma.setAlunos(alunos);
+    turma.setNome(dto.getNome());
+    turma.setDisciplina(disciplina);
+    turma.setAlunos(alunos);
 
-        Turma updated = turmaRepository.save(turma);
-        return TurmaMapper.toResponseDTO(updated);
+    for (Aluno aluno : alunos) {
+        aluno.getTurmas().add(turma);
     }
+
+    Turma updated = turmaRepository.save(turma);
+
+    for (Aluno aluno : alunos) {
+        alunoRepository.save(aluno);
+    }
+
+    return TurmaMapper.toResponseDTO(updated);
+}
 
     public TurmaResponseDTO buscarPorId(Long id) {
         Turma turma = turmaRepository.findById(id)

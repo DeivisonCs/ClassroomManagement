@@ -58,4 +58,10 @@ public class AlunoController {
         alunoService.deletarAluno(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{alunoId}/turma/{turmaId}")
+    public ResponseEntity<String> adicionarAlunoATurma(@PathVariable Long alunoId, @PathVariable Long turmaId) {
+        alunoService.adicionarAlunoATurma(alunoId, turmaId);
+        return ResponseEntity.ok("Aluno adicionado à turma com sucesso!");
+    }
 }

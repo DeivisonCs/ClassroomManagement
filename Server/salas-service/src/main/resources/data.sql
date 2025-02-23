@@ -1,3 +1,14 @@
+-- DO $$
+-- BEGIN
+--     IF NOT EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'aluno_turma') THEN
+--         CREATE TABLE aluno_turma (
+--             aluno_id BIGINT REFERENCES alunos(matricula),
+--             turma_id BIGINT REFERENCES turmas(id),
+--             PRIMARY KEY (aluno_id, turma_id)
+--         );
+--     END IF;
+-- END $$;
+
 -- Inserir disciplinas
 INSERT INTO disciplinas (id, nome) VALUES
 (1, 'Matemática'),
@@ -64,8 +75,6 @@ INSERT INTO aulas (id, disciplina_id, turma_id) VALUES
 (4, 1, 2),
 (5, 2, 3)
 ON CONFLICT (id) DO NOTHING;
-
--- Adicionar a coluna professor_id na tabela aulas
 
 
 -- Inserir turma_sala
