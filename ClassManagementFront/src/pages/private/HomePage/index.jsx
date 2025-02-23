@@ -12,7 +12,7 @@ const pageMenuOptions = {
     ],
     users: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/adduser' },
-        { label: 'Listar', icon: 'list', linkTo: '/ifba/home' }
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/listusers' }
     ],
     classroom: []
 };
