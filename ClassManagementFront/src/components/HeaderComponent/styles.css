@@ -1,0 +1,207 @@
+
+header#main-header {
+    background-color: var(--main-color);
+    width: 100vw;
+    height: 80px;
+    padding-right: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+
+    span.header-emblem-icon-span {
+        display: block;
+        width: 67px;
+        
+
+        img {
+            width: 100%;
+        }
+    }
+
+    div.header-menu-div {
+        cursor: pointer;
+        height: 45px;
+        width: 45px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        span {
+            display: block;
+            background-color: #fff;
+            width: 100%;
+            height: 6px;
+            border-radius: 15px;
+        }
+    }
+
+    div.header-menu-div {
+        &.active-menu {
+            animation: to-left-menu-animation 1s forwards;
+
+            & > span:first-child {
+                animation: to-right-animation 1s forwards;
+            }
+            & > span:nth-child(2) {
+                animation: to-left-animation 1s forwards;
+            }
+            & > span:nth-child(3) {
+                animation: to-right-animation 1s forwards;
+            }
+        }
+
+        &:not(.active-menu){
+            animation: to-left-menu-close 1s forwards;
+
+            & > span:first-child {
+                animation: to-right-close-animation 1s forwards;
+            }
+            & > span:nth-child(2) {
+                animation: to-left-close-animation 1s forwards;
+            }
+            & > span:nth-child(3) {
+                animation: to-right-close-animation 1s forwards;
+            }
+        }
+    }
+
+    div.menu-options-div {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transform: translateY(100%);
+
+        background-color: #fff;
+
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        width: 0;
+
+        a.menu-option {
+            text-decoration: none;
+            background-color: var(--main-color);
+            padding: 12px 25px;
+
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &.active-menu{
+            animation: menu-options-animation 1s forwards;
+            
+            a.menu-option{
+                animation: menu-option-animation 1s forwards;
+            }
+        }
+        
+        &:not(.active-menu){
+            animation: menu-options-close-animation 1s forwards;
+            
+            a.menu-option {
+                animation: menu-option-close-animation 1s forwards;
+            }
+        }
+    }
+}
+
+
+@keyframes menu-options-animation {
+    from {
+        width: 0px;
+    }
+    to {
+        width: 110px;
+    }
+}
+@keyframes menu-options-close-animation {
+    from {
+        width: 110px;
+    }
+    to {
+        width: 0px;
+    }
+}
+
+@keyframes menu-option-animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
+@keyframes menu-option-close-animation {
+    from {
+        opacity: 100;
+    }
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes to-left-menu-animation {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-20px);
+    }
+}
+@keyframes to-left-menu-close {
+    from {
+        transform: translateX(-20px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+
+@keyframes to-left-animation {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-10px);
+    }
+}
+@keyframes to-left-close-animation {
+    from {
+        transform: translateX(-10);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes to-right-animation {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(10px);
+    }
+}
+@keyframes to-right-close-animation {
+    from {
+        transform: translateX(10);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
