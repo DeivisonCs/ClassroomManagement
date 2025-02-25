@@ -7,12 +7,10 @@ import { Column } from 'primereact/column';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
 import { FilterMatchMode } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
+import { Button } from "primereact/button";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const ListUserPage = () => {
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
     const allRoles = ["Admin", "Aluno", "Professor"];
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -48,26 +46,6 @@ const ListUserPage = () => {
             default: return 'danger';
         }
     }
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        let _filters = { ...filters };
-
-        _filters['global'].value = value;
-
-        setFilters(_filters);
-        setGlobalFilterValue(value);
-    };
-
-    const renderHeader = () => {
-        return (
-            <div className="flex justify-content-end">
-                <IconField iconPosition="left">
-                    <InputIcon className="pi pi-search" />
-                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Buscar" />
-                </IconField>
-            </div>
-        );
-    };
 
     const roleTemplate = (rowData) => {
         return <Tag style={{ width: '50%', textAlign:'center', fontSize:'15px' }} value={rowData.cargo} severity={getRoleData(rowData.cargo)} />;
@@ -82,9 +60,37 @@ const ListUserPage = () => {
         );
     };
 
-    const header = renderHeader();
+    const actions = (rowData) => {
+        return (
+            <div className="actions-div">
+                <Button 
+                    tooltip="Remover Usuário" 
+                    tooltipOptions={{ position: 'top' }} 
+                    icon="pi pi-trash"
+                    onClick={() => confirmDelete(rowData)}/>
+            </div>
+        );
+    }
+
+    const removeUser = (id) => {
+        // TODO - função pra remover usuário
+    }
+
+    // dialog para confirmar remoção do usuário
+    const confirmDelete = (user) => {
+        confirmDialog({
+            message: 'Deseja remover '+ user.nome +'?',
+            header: 'Confirmação',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            accept: () => removeUser(user.matricula),
+            reject: null
+        });
+    };
 
     return(
+    <>
+    <ConfirmDialog />
     <section id="list-page">
         <div className="title-div">
             <h1 className="page-title main-page-title">Usuários</h1>
@@ -117,9 +123,11 @@ const ListUserPage = () => {
                     filterElement={roleRowFilterTemplate} 
                     style={{ minWidth: '12rem', textAlign:"center"}} 
                     filterMenuStyle={{ width: '14rem' }}></Column>
+                <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
             </DataTable>
         </div>
     </section>
+    </>
     );
 }
 

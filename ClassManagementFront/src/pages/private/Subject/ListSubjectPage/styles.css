@@ -51,21 +51,5 @@ section#list-page {
             background-color: #e0e0e0;
         }
 
-        .actions-div {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            justify-content: center;
-
-            button {
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-
-                background-color: var(--secondary-color);
-                color: #0000009f;
-            }
-        }
-
     }
 }

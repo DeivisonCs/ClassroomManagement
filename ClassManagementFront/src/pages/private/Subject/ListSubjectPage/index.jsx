@@ -4,13 +4,8 @@ import "./styles.css";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Dropdown } from 'primereact/dropdown';
-import { Tag } from 'primereact/tag';
-import { FilterMatchMode } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
 import { Button } from "primereact/button";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const ListSubjectPage = () => {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -45,16 +40,38 @@ const ListSubjectPage = () => {
         return classes.map(_class => _class.nome).join(", ");
     }
 
-    const actions = () => {
+    const actions = (rowData) => {
         return (
             <div className="actions-div">
-                <Button tooltip="Remover Disciplina" icon="pi pi-trash"></Button>
+                <Button 
+                    tooltip="Remover Disciplina" 
+                    tooltipOptions={{ position: 'top' }} 
+                    icon="pi pi-trash"
+                    onClick={() => confirmDelete(rowData)}/>
                 {/* <Button icon="pi pi-times"></Button> */}
             </div>
         );
     }
 
+    const removeSubjecct = (id) => {
+        // TODO - função pra remover disciplina
+    }
+
+    // dialog para confirmar remoção da disciplina
+    const confirmDelete = (subject) => {
+        confirmDialog({
+            message: 'Deseja remover '+ subject.nome +'?',
+            header: 'Confirmação',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            accept: () => removeSubjecct(subject.id),
+            reject: null
+        });
+    };
+
     return(
+    <>
+    <ConfirmDialog />
     <section id="list-page">
         <div className="title-div">
             <h1 className="page-title main-page-title">Disciplinas</h1>
@@ -83,10 +100,11 @@ const ListSubjectPage = () => {
                     body={(rowData) => renderClasses(rowData.turmas)} 
                     field="turmas.nome" 
                     style={{ minWidth: '12rem' }}></Column>
-                <Column body={actions()} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
+                <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
             </DataTable>
         </div>
     </section>
+    </>
     );
 }
 
