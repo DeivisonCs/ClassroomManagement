@@ -14,7 +14,10 @@ const pageMenuOptions = {
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/adduser' },
         { label: 'Listar', icon: 'list', linkTo: '/ifba/listusers' }
     ],
-    classroom: []
+    subject: [
+        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-subject' },
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-add-subject' }
+    ]
 };
 
 const HomePage = () => {
@@ -47,20 +50,17 @@ const HomePage = () => {
     };
 
     return (
-        <>
-            <HeaderComponent />
-            <section id="page-section">
-                <h1 id="main-page-title">{pageTitle}</h1>
+    <section id="page-section">
+        <h1 id="main-page-title">{pageTitle}</h1>
 
-                <div id="page-options">
-                    {Array.isArray(pageOptions) && pageOptions.length !== 0 &&
-                        pageOptions.map((option, idx) => {
-                            return <PageLinkComponent key={idx} label={option.label} icon={option.icon} linkTo={option.linkTo} />;
-                        })
-                    }
-                </div>
-            </section>
-        </>
+        <div id="page-options">
+            {Array.isArray(pageOptions) && pageOptions.length !== 0 &&
+                pageOptions.map((option, idx) => {
+                    return <PageLinkComponent key={idx} label={option.label} icon={option.icon} linkTo={option.linkTo} />;
+                })
+            }
+        </div>
+    </section>
     );
 };
 

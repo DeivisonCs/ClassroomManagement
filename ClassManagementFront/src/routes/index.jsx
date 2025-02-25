@@ -4,15 +4,16 @@ import LogInPage from "../pages/public/LoginPage";
 import HomePage from "../pages/private/HomePage";
 import AddUserPage from "../pages/private/User/AddUserPage";
 import ListUserPage from "../pages/private/User/ListUserPage";
+import HeaderComponent from "../components/HeaderComponent";
 
 const AppRoutes = () => {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<LogInPage />} />
-                <Route path="/ifba/:page" element={<HomePage />} />
-                <Route path="/ifba/adduser" element={<AddUserPage />} />
-                <Route path="/ifba/listusers" element={<ListUserPage />} />
+                <Route path="/ifba/:page" element={<><HeaderComponent/><HomePage /></>} />
+                <Route path="/ifba/adduser" element={<><HeaderComponent/><AddUserPage/></>} />
+                <Route path="/ifba/listusers" element={<><HeaderComponent/><ListUserPage/></>} />
             </Routes>
         </Router>
     );

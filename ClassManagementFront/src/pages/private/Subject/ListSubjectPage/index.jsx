@@ -13,7 +13,7 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { MultiSelect } from 'primereact/multiselect';
 
-const ListUserPage = () => {
+const ListSubjectPage = () => {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const allRoles = ["Admin", "Aluno", "Professor"];
     const [filters, setFilters] = useState({
@@ -126,4 +126,4 @@ const ListUserPage = () => {
 }
 
 
-export default ListUserPage;
+export default ListSubjectPage;
