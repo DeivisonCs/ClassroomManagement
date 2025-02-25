@@ -16,6 +16,7 @@ button {
   background-color: var(--main-color);
   border: none;
   box-shadow: none;
+  color: #fff;
   
   &:hover {
     background-color: var(--secondary-color);
@@ -29,4 +30,19 @@ button {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.p-paginator-page.p-highlight {
+  color: #fff;
+  background-color: #00000050;
+}
+
+.p-paginator-bottom {
+  svg, span button{
+     color: #000000bd;
+ }
+
+ button{
+     background-color: #ffffff;
+ }
 }
