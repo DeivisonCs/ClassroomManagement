@@ -12,6 +12,18 @@ body {
   margin: 0;
 }
 
+button {
+  background-color: var(--main-color);
+  border: none;
+  box-shadow: none;
+  
+  &:hover {
+    background-color: var(--secondary-color);
+    color: #0000008e;
+  }
+
+}
+
 .league-spartan-font {
   font-family: "League Spartan", serif;
   font-optical-sizing: auto;

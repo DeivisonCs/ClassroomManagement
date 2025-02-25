@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import HeaderComponent from "../../../components/HeaderComponent";
 import "./styles.css";
 import PageLinkComponent from "../../../components/PageOption/PageLinkComponent";
 import { useNavigate, useParams } from "react-router-dom";
 
 const pageMenuOptions = {
     home: [
-        { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/home' },
+        { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/subject' },
         { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/home' },
         { label: 'Usuários', icon: 'user', linkTo: '/ifba/users' }
     ],
     users: [
-        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/adduser' },
-        { label: 'Listar', icon: 'list', linkTo: '/ifba/listusers' }
+        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-user' },
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-users' }
     ],
     subject: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-subject' },
-        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-add-subject' }
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-subject' }
     ]
 };
 
@@ -30,7 +29,7 @@ const HomePage = () => {
 
     useEffect(() => {
         validUrl();
-        capitalizePageTitle();
+        setPageTitle(convertUrl());
     }, [page]);
 
     const validUrl = () => {
@@ -41,13 +40,22 @@ const HomePage = () => {
         setPageOptions(pageMenuOptions[page] || []);
     };
 
-    const capitalizePageTitle = () => {
-        let str = page.split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ');
+    const convertUrl = () => {
+        switch (page) {
+            case "home": return "Home";
+            case "users": return "Usuários";
+            case "subject": return "Disciplinas";
+            default: navigate("/");
+        }
+    }
 
-        setPageTitle(str);
-    };
+    // const capitalizePageTitle = () => {
+    //     let str = page.split(' ')
+    //         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    //         .join(' ');
+
+    //     setPageTitle(str);
+    // };
 
     return (
     <section id="page-section">

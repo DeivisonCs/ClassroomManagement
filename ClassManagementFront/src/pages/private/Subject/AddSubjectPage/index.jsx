@@ -1,100 +1,130 @@
-import React, { useRef, useState } from "react";
-import HeaderComponent from "../../../../components/HeaderComponent";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./styles.css";
 import { InputText } from "primereact/inputtext";
-import { InputMask } from "primereact/inputmask";
-import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { MultiSelect } from 'primereact/multiselect';
+import { Dialog } from 'primereact/dialog';
 
 const AddSubjectPage = () => {
     const toast = useRef(null);
-    const [nome, setNome] = useState('');
-    // const [email, setEmail] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [role, setRole] = useState('');
-    const allRoles = ["Aluno", "Professor", "Admistrador"];
+    const [name, setName] = useState('');
+    const [selectedProfessors, setProfessors] = useState([]);
+    const [selectedClasses, setClasses] = useState([]);
+    const [allProfessors, setAllProfessors] = useState([]);
+    const [allClasses, setAllClasses] = useState([]);
+    const [details, setDetails] = useState(false);
+
+    useEffect(() => {
+        setAllProfessors([
+            {matricula:"124241", name: "Testando da Silva"},
+            {matricula:"518523", name: "Arnoldo Martins"},
+            {matricula:"518ra23", name: "Arnoldo Martins"},
+            {matricula:"518dasd3", name: "Arnoldo Martins"},
+            {matricula:"51da3", name: "Arnoldo Martins"},
+            {matricula:"518523", name: "Arnoldo Martins"},
+            {matricula:"518523", name: "Arnoldo Martins"},
+        ])
+        setAllClasses([
+            {id: "15325", name:"Class 1"},
+            {id: "95713", name:"Class 2"},
+        ])
+    }, [])
 
     const showToast = (severity, summary, message) => {
         toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
     };
 
     const validData = () => {
-        if (!nome || !email || !cpf || !role) {
-            showToast('info', 'Formulário Inválido','Por favor, preencha todos os campos!');
-
-            return false;
-        }
- 
-        if(!isNotEmptyOrWhitespace(nome) || nome.length < 3){
-            showToast('info', 'Campo Inválido','Nome inválido!');
-            return false;
-        }
-        
-        if(!isValidEmail(email)) {
-            showToast('info', 'Campo Inválido','Email inválido!');
-            return false;
-        }
+        // TODO - validar os dados; Usar toast caso erro 
 
         return true;
     }
 
-    function registerUser() {
+    function registerSubject() {
         if(validData()){
-            console.log(nome)
-            console.log(cpf)
-            console.log(email)
-            console.log(role)
+            console.log(name)
+            console.log(selectedProfessors)
+            console.log(selectedClasses)
         }
     }
 
     return (
     <>
         <Toast ref={toast} />
-        <section id="user-add-section">
+        <section id="subject-add-section">
             <div className="title-div">
-                <h1 className="page-title main-page-title">Usrios</h1>
+                <h1 className="page-title main-page-title">Disciplinas</h1>
                 <h2 className="page-title sub-page-title">Cadastar</h2>
             </div>
 
-            <div id="user-form-div">
+            <div id="subject-form-div">
                 <div className="input-div">
                     <label htmlFor="nome">Nome</label>
                     <InputText
                         id="nome"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </div>
-                <div className="input-div">
-                    <label htmlFor="cpf">CPF</label>
-                    <InputMask 
-                        id="cpf" 
-                        value={cpf} 
-                        onChange={(e) => setCpf(e.target.value)} 
-                        mask="999.999.999-99"/>
-                </div>
-                <div className="input-div">
-                    <label htmlFor="email">Email</label>
-                    <InputText
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                <div className="input-div input-dropdown">
+                    <label>Professores</label>
+                    <MultiSelect
+                        value={selectedProfessors}
+                        onChange={(e) => setProfessors(e.value)}
+                        options={allProfessors}
+                        optionLabel="name"
                     />
                 </div>
-                <div className="input-div role-dropdown">
-                    <label>Cargo</label>
-                    <Dropdown
-                        value={role} 
-                        onChange={(e) => setRole(e.value)} 
-                        options={allRoles} 
+                <div className="input-div input-dropdown">
+                    <label>Turmas</label>
+                    <MultiSelect
+                        value={selectedClasses}
+                        onChange={(e) => setClasses(e.value)}
+                        options={allClasses}
+                        optionLabel="name"
                     />
                 </div>
 
-                <Button onClick={()  => registerUser()} label="Cadastrar" rounded size="large" />
+                <div className="buttons-div">
+                    <Button 
+                        label="Cadastrar" 
+                        onClick={()  => registerSubject()} 
+                        rounded 
+                        size="large" />
+                    <Button 
+                        className="view-data-button" 
+                        icon="pi pi-list"
+                        tooltip="Ver Detalhes do Formulário"
+                        onClick={() => setDetails(true)}/>
+                </div>
             </div>
         </section>
+
+        <Dialog className="data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => {if (!details) return; setDetails(false); }}>
+            <div className="data-dialog-item">
+                <h3>Nome</h3>
+                <span>{name}</span>
+            </div>  
+            <div className="data-dialog-item">
+                <h3>Professores</h3>
+                <div className="selected-list">
+                    {selectedProfessors.length > 0? 
+                        selectedProfessors.map( professor => <span key={professor.matricula}>{professor.name}</span>) : <span>Nenhum professor selecionado</span>
+                    }
+                </div>
+            </div>
+            <div className="data-dialog-item">
+                <h3>Turmas</h3>
+                <div className="selected-list">
+                    {selectedClasses.length > 0? 
+                        selectedClasses.map( _class => <span key={_class.id}>{_class.name}</span>) : <span>Nenhum turma selecionada</span>
+                    }
+                </div>
+            </div>
+
+        </Dialog>
     </>
     )
 }
