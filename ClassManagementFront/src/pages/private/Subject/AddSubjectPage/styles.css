@@ -24,16 +24,11 @@ section#subject-add-section {
     }
 
     div#subject-form-div {
-        margin-top: 15%;
-
-        & > * {
-            transform: translateX(-35px);
-        }
+        transform: translateY(100px);
 
         display: grid;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 50% 50%;
         gap: 70px;
-        flex-wrap: wrap;
 
         div.input-div {
             display: flex;
@@ -82,5 +77,15 @@ section#subject-add-section {
         display: flex;
         flex-direction: column;
         gap: 3px;
+    }
+}
+
+@media (max-width: 790px) {
+    section#subject-add-section div#subject-form-div {
+        grid-template-columns: 1fr;
+
+        div.buttons-div {
+            grid-column: 1;
+        }
     }
 }

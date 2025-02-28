@@ -24,16 +24,11 @@ section#user-add-section {
     }
 
     div#user-form-div {
-        margin-top: 15%;
-
-        & > * {
-            transform: translateX(-35px);
-        }
+        transform: translateY(100px);
 
         display: grid;
         grid-template-columns: 50% 50%;
         gap: 70px;
-        flex-wrap: wrap;
 
         div.input-div {
             display: flex;
@@ -60,5 +55,9 @@ section#user-add-section {
 @media (max-width: 790px) {
     section#user-add-section div#user-form-div {
         grid-template-columns: 1fr;
+
+        button {
+            grid-column: span 1;
+        }
     }
 }
