@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import HeaderComponent from "../../../../components/HeaderComponent";
 
 import "./styles.css";
 import { InputText } from "primereact/inputtext";
@@ -60,7 +59,6 @@ const AddUserPage = () => {
     return (
     <>
         <Toast ref={toast} />
-        <HeaderComponent />
         <section id="user-add-section">
             <div className="title-div">
                 <h1 className="page-title main-page-title">Usuários</h1>

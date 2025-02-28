@@ -1,9 +1,8 @@
-section#user-add-section {
+section#class-add-section {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0px 10%;
-
     height: 100vh;
 
     div.title-div{
@@ -23,7 +22,7 @@ section#user-add-section {
     
     }
 
-    div#user-form-div {
+    div#class-form-div {
         transform: translateY(100px);
 
         display: grid;
@@ -34,7 +33,7 @@ section#user-add-section {
             display: flex;
             flex-direction: column;
 
-            input , &.role-dropdown div.p-dropdown{
+            input {
                 width: 100%;
                 border-radius: 5;
                 background-color: #dadada;
@@ -53,11 +52,11 @@ section#user-add-section {
 }
 
 @media (max-width: 790px) {
-    section#user-add-section div#user-form-div {
+    section#class-add-section div#class-form-div {
         grid-template-columns: 1fr;
 
         button {
-            grid-column: span 1;
+            grid-column: 1;
         }
     }
 }

@@ -1,4 +1,4 @@
-section#user-add-section {
+section#subject-add-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@ section#user-add-section {
     
     }
 
-    div#user-form-div {
+    div#subject-form-div {
         transform: translateY(100px);
 
         display: grid;
@@ -34,8 +34,8 @@ section#user-add-section {
             display: flex;
             flex-direction: column;
 
-            input , &.role-dropdown div.p-dropdown{
-                width: 100%;
+            input , .p-multiselect{
+                width: 300px;
                 border-radius: 5;
                 background-color: #dadada;
                 border: none;
@@ -44,20 +44,48 @@ section#user-add-section {
             }
         }
 
-        button {
+        div.buttons-div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
             grid-column: span 2;
             justify-self: center;
+
+            button {
+                font-size: 19px;
+            }
+
+            .view-data-button {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+            }
         }
 
     }
 }
 
+.data-dialog {
+    
+    div.data-dialog-item:has(h3) > *:nth-child(2) {
+        margin-left: 10px;
+    }
+
+    div.selected-list {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+}
+
 @media (max-width: 790px) {
-    section#user-add-section div#user-form-div {
+    section#subject-add-section div#subject-form-div {
         grid-template-columns: 1fr;
 
-        button {
-            grid-column: span 1;
+        div.buttons-div {
+            grid-column: 1;
         }
     }
 }
