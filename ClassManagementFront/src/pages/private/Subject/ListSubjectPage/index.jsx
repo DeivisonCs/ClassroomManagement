@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./styles.css";
 
@@ -8,29 +8,36 @@ import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const ListSubjectPage = () => {
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
-    const allRoles = ["Admin", "Aluno", "Professor"];
-    // const [filters, setFilters] = useState({
-    //     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    //     nome: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    //     email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    //     matricula: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    //     cargo: { value: null, matchMode: FilterMatchMode.EQUALS }
-    // });
-    const dataList = [
-        {
-            id:"412", 
-            nome: 'subject 1', 
-            professores: [
-                {id:"16123", nome:"Professor 1"}, 
-                {id:"94124", nome:"Professor 2"}, 
-            ], 
-            turmas: [
-                {id:"4512", nome:"Class 1"},
-                {id:"8151", nome:"Class 2"},
-            ]
-        },
-    ]
+    const [subjetcs, setSubjects] = useState([])
+
+    useEffect(() => {
+        setSubjects([
+            {
+                id:"412", 
+                nome: 'subject 1', 
+                professores: [
+                    {id:"16123", nome:"Professor 1"}, 
+                    {id:"94124", nome:"Professor 2"}, 
+                ], 
+                turmas: [
+                    {id:"4512", nome:"Class 1"},
+                    {id:"8151", nome:"Class 2"},
+                ]
+            },
+            {
+                id:"814", 
+                nome: 'subject 2', 
+                professores: [
+                    {id:"5171", nome:"Professor 3"}, 
+                    {id:"'56061'", nome:"Professor 4"}, 
+                ], 
+                turmas: [
+                    {id:"05462", nome:"Class 3"},
+                    {id:"1261", nome:"Class 4"},
+                ]
+            }
+        ]);
+    }, [])
 
     const renderProfessors = (professors) => {
         return professors.map(professor => professor.nome).join(", ");
@@ -54,7 +61,7 @@ const ListSubjectPage = () => {
         );
     }
 
-    const removeSubjecct = (id) => {
+    const removeSubject = (id) => {
         // TODO - função pra remover disciplina
     }
 
@@ -65,7 +72,7 @@ const ListSubjectPage = () => {
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
-            accept: () => removeSubjecct(subject.id),
+            accept: () => removeSubject(subject.id),
             reject: null
         });
     };
@@ -81,7 +88,7 @@ const ListSubjectPage = () => {
 
         <div className="list-table-div" >
             <DataTable 
-                value={dataList}
+                value={subjetcs}
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
                 showGridlines 
@@ -95,12 +102,14 @@ const ListSubjectPage = () => {
                 <Column 
                     header="Professores" 
                     body={(rowData) => renderProfessors(rowData.professores)} 
-                    style={{ minWidth: '12rem' }}></Column>
+                    style={{ minWidth: '12rem' }}> 
+                </Column>
                 <Column 
                     header="Turmas" 
                     body={(rowData) => renderClasses(rowData.turmas)} 
                     field="turmas.nome" 
-                    style={{ minWidth: '12rem' }}></Column>
+                    style={{ minWidth: '12rem' }}>
+                </Column>
                 <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
             </DataTable>
         </div>
