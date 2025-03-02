@@ -1,5 +1,7 @@
 package com.ifba.ms_user.dto;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.ifba.ms_user.models.enums.OccupationType;
 
 import jakarta.validation.constraints.Email;
@@ -20,17 +22,12 @@ public record UserForm(
 	String email,
 	
 	@NotBlank(message = "CPF is required")
-	@Size(min = 11, max = 11, message = "CPF must be 11 characters")
+	@CPF(message = "CPF should be valid")
 	String cpf,
 	
 	@NotBlank(message = "Human readable id is required")
-	@Size(min = 6, max = 20, message = "Human readable id must be between 6 and 20 characters")
-	String humanReadableId,
-	
-	@NotBlank(message = "Password is required")
-	@Size(min = 6, message = "Password must be at least 6 characters")
-	String password
-
+	@Size(max = 7, message = "Human readable id must be 7 characters")
+	String humanReadableId
 ) {
 	
 }
