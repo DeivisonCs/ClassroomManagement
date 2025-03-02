@@ -18,7 +18,7 @@ public class AppConfig {
 
     @PostConstruct
     public void init() {
-    	UserForm userForm = new UserForm(OccupationType.ADMIN, "admin", "admin@gmail.com", "10685680541", "admin123", "admin123");
+    	UserForm userForm = new UserForm(OccupationType.ADMINISTRADOR, "admin", "admin@gmail.com", "84963974088", "admin123");
         		
         accountService.registerAccount(userForm);
     }
