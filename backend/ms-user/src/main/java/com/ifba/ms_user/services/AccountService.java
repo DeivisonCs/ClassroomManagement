@@ -46,11 +46,12 @@ public class AccountService {
 		            personRepository.save(newPerson);
 		            return newPerson;
 		        });
+		String password = generateDefaultPassword(form.cpf());
 		
-		    Account account = new Account(form.humanReadableId(),
-		    		passwordEncoder.encode(form.password()), form.occupation(), person);
-		    account = accountRepository.save(account);
-		
+	    Account account = new Account(form.humanReadableId(),
+	    		passwordEncoder.encode(password), form.occupation(), person);
+	    account = accountRepository.save(account);
+	
 	   return new UserSummary(account, person);
     }
 	
@@ -82,5 +83,9 @@ public class AccountService {
 	public void deleteById(Long id) {
 		accountRepository.deleteById(id);
 	}
+	
+	private String generateDefaultPassword(String cpf) {
+        return "ifba." + cpf;
+    }
 
 }
