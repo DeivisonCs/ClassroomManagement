@@ -22,7 +22,7 @@ import com.ifba.ms_user.services.AccountService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/account")
 @Validated
 public class AccountController {
 
@@ -34,7 +34,7 @@ public class AccountController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    @Secured("ADMIN")
+    @Secured("ADMINISTRADOR")
     public UserSummary registerUser(@Valid @RequestBody UserForm form) {
         return accountService.registerAccount(form);
     }
@@ -53,7 +53,7 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Secured("ADMIN")
+    @Secured("ADMINISTRADOR")
     public void deleteById(@PathVariable Long id) {
         accountService.deleteById(id);
     }
