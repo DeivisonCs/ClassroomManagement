@@ -5,9 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const pageMenuOptions = {
     home: [
-        { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/subject' },
+        { label: 'Usuários', icon: 'user', linkTo: '/ifba/users' },
         { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/classroom' },
-        { label: 'Usuários', icon: 'user', linkTo: '/ifba/users' }
+        { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/subject' },
+        { label: 'Turmas', icon: 'users', linkTo: '/ifba/class' },
     ],
     users: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-user' },
@@ -16,6 +17,10 @@ const pageMenuOptions = {
     classroom: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-classroom' },
         { label: 'Listar', icon: 'list', linkTo: '/ifba/list-classroom' }
+    ],
+    class: [
+        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-class' },
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/home' }
     ],
     subject: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-subject' },
@@ -49,6 +54,7 @@ const HomePage = () => {
             case "home": return "Home";
             case "users": return "Usuários";
             case "classroom": return "Salas";
+            case "class": return "Turmas";
             case "subject": return "Disciplinas";
             default: navigate("/");
         }

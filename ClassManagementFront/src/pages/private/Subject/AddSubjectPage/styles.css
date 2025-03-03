@@ -67,7 +67,7 @@ section#subject-add-section {
     }
 }
 
-.data-dialog {
+.subject-data-dialog {
     
     div.data-dialog-item:has(h3) > *:nth-child(2) {
         margin-left: 10px;
