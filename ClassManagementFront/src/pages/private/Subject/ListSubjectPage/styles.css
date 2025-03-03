@@ -1,0 +1,55 @@
+section#list-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10%;
+
+    height: 100vh;
+
+    div.title-div{
+        position: absolute;
+        left: 50px;
+        top: 100px;
+
+        .page-title {            
+            color: #5F6368;
+            font-size: 3em;
+            margin: 0;
+        }
+        h2.sub-page-title {
+            text-align: end;
+            font-size: 1.6em;
+        }
+    }
+
+
+    div.list-table-div {
+        max-height: 40vh;
+
+        .p-datatable .p-datatable-thead > tr > th{
+            background-color: var(--main-color);
+            color: #fff;
+        }
+        .p-datatable-table svg {
+            color: #fff;
+        }
+        .p-column-filter-menu-button:hover {
+            background-color: var(--secondary-color);
+        }
+        .p-column-filter-menu-button.p-column-filter-menu-button-active, 
+        .p-column-filter-menu-button.p-column-filter-menu-button-active:hover,
+        .p-column-filter-menu-button.p-column-filter-menu-button-open, 
+        .p-column-filter-menu-button.p-column-filter-menu-button-open:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .p-column-filter-clear-button:hover {
+            background-color: #ffffff7e;
+        }
+        
+        .p-datatable .p-datatable-tbody > tr:hover {
+            background-color: #e0e0e0;
+        }
+
+    }
+}
