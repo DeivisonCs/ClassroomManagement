@@ -20,7 +20,7 @@ const pageMenuOptions = {
     ],
     class: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-class' },
-        { label: 'Listar', icon: 'list', linkTo: '/ifba/home' }
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-class' }
     ],
     subject: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-subject' },
