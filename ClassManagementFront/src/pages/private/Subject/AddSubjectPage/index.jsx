@@ -102,7 +102,7 @@ const AddSubjectPage = () => {
             </div>
         </section>
 
-        <Dialog className="data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => {if (!details) return; setDetails(false); }}>
+        <Dialog className="subject-data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => {if (!details) return; setDetails(false); }}>
             <div className="data-dialog-item">
                 <h3>Nome</h3>
                 <span>{name}</span>
