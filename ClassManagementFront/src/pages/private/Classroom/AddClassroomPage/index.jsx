@@ -6,7 +6,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 
-const AddClassPage = () => {
+const AddClassroomPage = () => {
     const toast = useRef(null);
     const [nome, setNome] = useState('');
     const [capacity, setCapacity] = useState(0);
@@ -75,4 +75,4 @@ const AddClassPage = () => {
     )
 }
 
-export default AddClassPage;
+export default AddClassroomPage;

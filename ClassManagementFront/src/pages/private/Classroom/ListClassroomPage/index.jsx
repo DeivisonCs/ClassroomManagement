@@ -7,7 +7,7 @@ import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
-const ListClassPage = () => {
+const ListClassroomPage = () => {
     const [classes, setClasses] = useState([]);
     
     useEffect(() =>{
@@ -92,4 +92,4 @@ const ListClassPage = () => {
 }
 
 
-export default ListClassPage;
+export default ListClassroomPage;

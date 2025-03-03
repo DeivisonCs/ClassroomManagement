@@ -7,8 +7,8 @@ import ListUserPage from "../pages/private/User/ListUserPage";
 import HeaderComponent from "../components/HeaderComponent";
 import AddSubjectPage from "../pages/private/Subject/AddSubjectPage";
 import ListSubjectPage from "../pages/private/Subject/ListSubjectPage";
-import AddClassPage from "../pages/private/Class/AddClassPage";
-import ListClassPage from "../pages/private/Class/ListClassPage";
+import AddClassroomPage from "../pages/private/Classroom/AddClassroomPage";
+import ListClassroomPage from "../pages/private/Classroom/ListClassroomPage";
 
 const AppRoutes = () => {
     return (
@@ -20,8 +20,8 @@ const AppRoutes = () => {
                 <Route path="/ifba/list-users" element={<><HeaderComponent/><ListUserPage/></>} />
                 <Route path="/ifba/add-subject" element={<><HeaderComponent/><AddSubjectPage/></>} />
                 <Route path="/ifba/list-subject" element={<><HeaderComponent/><ListSubjectPage/></>} />
-                <Route path="/ifba/add-class" element={<><HeaderComponent/><AddClassPage/></>} />
-                <Route path="/ifba/list-class" element={<><HeaderComponent/><ListClassPage/></>} />
+                <Route path="/ifba/add-classroom" element={<><HeaderComponent/><AddClassroomPage/></>} />
+                <Route path="/ifba/list-classroom" element={<><HeaderComponent/><ListClassroomPage/></>} />
             </Routes>
         </Router>
     );
