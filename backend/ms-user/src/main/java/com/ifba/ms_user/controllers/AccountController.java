@@ -35,11 +35,16 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     @Secured("ADMIN")
     public ResponseEntity<UserSummary> registerUser(@Valid @RequestBody UserForm form) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.registerAccount(form));
     }
+    
+    @GetMapping
+	public ResponseEntity<List<UserSummary>> listAll() {
+		return ResponseEntity.ok(accountService.listAll());
+	}
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDetails> findById(@PathVariable Long id) {

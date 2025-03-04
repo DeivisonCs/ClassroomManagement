@@ -61,7 +61,7 @@ public class AccountService {
 
 	    account = accountRepository.save(account);
 	
-	   return new UserSummary(account, person);
+	   return new UserSummary(account);
     }
 	
 	public UserDetails findById(Long id) {
@@ -99,6 +99,12 @@ public class AccountService {
 		List<Occupation> occupations = occupationRepository.findAll();
 		
 		return occupations.stream().map(OccupationDto::new).toList();
+	}
+
+	public List<UserSummary> listAll() {
+		List<Account> accounts = accountRepository.findAll();
+		
+		return accounts.stream().map(UserSummary::new).toList();
 	}
 
 }
