@@ -2,6 +2,7 @@
 package com.ifba.ms_user.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ifba.ms_user.dto.UserDetails;
@@ -33,28 +33,25 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Secured("ADMINISTRADOR")
-    public UserSummary registerUser(@Valid @RequestBody UserForm form) {
-        return accountService.registerAccount(form);
+    @Secured("ADMIN")
+    public ResponseEntity<UserSummary> registerUser(@Valid @RequestBody UserForm form) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.registerAccount(form));
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDetails findById(@PathVariable Long id) {
-        return accountService.findById(id);
+    public ResponseEntity<UserDetails> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.findById(id));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDetails updateById(@PathVariable Long id, @RequestBody UserForm form) {
-        return accountService.updateById(id, form);
+    public ResponseEntity<UserDetails> updateById(@PathVariable Long id, @RequestBody UserForm form) {
+        return ResponseEntity.ok(accountService.updateById(id, form));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Secured("ADMINISTRADOR")
-    public void deleteById(@PathVariable Long id) {
+    @Secured("ADMIN")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         accountService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
