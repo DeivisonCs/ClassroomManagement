@@ -1,6 +1,8 @@
 
 package com.ifba.ms_user.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ifba.ms_user.dto.OccupationDto;
 import com.ifba.ms_user.dto.UserDetails;
 import com.ifba.ms_user.dto.UserForm;
 import com.ifba.ms_user.dto.UserSummary;
@@ -54,4 +57,11 @@ public class AccountController {
         accountService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/occupations")
+    @Secured("ADMIN")
+    public ResponseEntity<List<OccupationDto>> listOccupations() {
+		return ResponseEntity.ok(accountService.listOccupations());
+	}
+    
 }

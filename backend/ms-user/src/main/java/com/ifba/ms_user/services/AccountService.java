@@ -1,9 +1,12 @@
 package com.ifba.ms_user.services;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ifba.ms_user.dto.OccupationDto;
 import com.ifba.ms_user.dto.UserDetails;
 import com.ifba.ms_user.dto.UserForm;
 import com.ifba.ms_user.dto.UserSummary;
@@ -91,5 +94,11 @@ public class AccountService {
 	private String generateDefaultPassword(String cpf) {
         return "ifba." + cpf;
     }
+
+	public List<OccupationDto> listOccupations() {
+		List<Occupation> occupations = occupationRepository.findAll();
+		
+		return occupations.stream().map(OccupationDto::new).toList();
+	}
 
 }
