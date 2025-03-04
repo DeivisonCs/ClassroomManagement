@@ -53,16 +53,3 @@ section#list-page {
 
     }
 }
-
-.class-details-data-dialog {
-    
-    div.data-dialog-item:has(h3) > *:nth-child(2) {
-        margin-left: 10px;
-    }
-
-    div.selected-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-}

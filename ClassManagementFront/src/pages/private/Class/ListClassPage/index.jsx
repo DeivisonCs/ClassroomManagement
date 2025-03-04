@@ -6,56 +6,72 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Dialog } from 'primereact/dialog';
 
 const ListClassPage = () => {
     const [classes, setClasses] = useState([]);
-    
-    useEffect(() =>{
+    const [selectedClass, setClass] = useState('');
+    const [details, setDetails] = useState(false);
+
+    useEffect(() => {
         setClasses([
             {
                 id:"412", 
                 nome: 'class 1', 
-                capacidade: 210,
+                disciplina: 'Matemática',
+                alunos: [
+                    {matricula:"4512", nome:"aluno 1"},
+                    {matricula:"8151", nome:"aluno 2"},
+                ]
             },
             {
-                id:"155", 
+                id:"814", 
                 nome: 'class 2', 
-                capacidade: 20,
-            },
-            {
-                id:"512", 
-                nome: 'class 3', 
-                capacidade: 10,
-            },
+                disciplina: 'Portugues',
+                alunos: [
+                    {matricula:"05462", nome:"aluno 3"},
+                    {matricula:"1261", nome:"aluno 4"},
+                ]
+            }
         ]);
     }, [])
+
+    const viewDetails = (_class) => {
+        setClass(_class);
+        setDetails(true);
+    }
 
     const actions = (rowData) => {
         return (
             <div className="actions-div">
                 <Button 
                     className="tematic"
-                    tooltip="Remover Sala" 
+                    tooltip="Remover Disciplina" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
                     onClick={() => confirmDelete(rowData)}/>
-                {/* <Button icon="pi pi-times"></Button> */}
+                <Button 
+                    className="tematic"
+                    tooltip="Ver detalhes" 
+                    tooltipOptions={{ position: 'top' }} 
+                    icon="pi pi-bars"
+                    onClick={() => viewDetails(rowData)}/>
             </div>
         );
     }
 
-    const removeClass = (id) => {
+    const removeSubject = (id) => {
         // TODO - função pra remover disciplina
     }
 
     // dialog para confirmar remoção da disciplina
-    const confirmDelete = (_class) => {
+    const confirmDelete = (subject) => {
         confirmDialog({
-            message: 'Deseja remover a sala '+ _class.nome +'?',
+            message: 'Deseja remover '+ subject.nome +'?',
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
-            accept: () => removeClass(_class.id),
+            accept: () => removeSubject(subject.id),
             reject: null
         });
     };
@@ -65,7 +81,7 @@ const ListClassPage = () => {
     <ConfirmDialog />
     <section id="list-page">
         <div className="title-div">
-            <h1 className="page-title main-page-title">Salas</h1>
+            <h1 className="page-title main-page-title">Disciplinas</h1>
             <h2 className="page-title sub-page-title">Listar</h2>
         </div>
 
@@ -82,11 +98,37 @@ const ListClassPage = () => {
                 removableSort
                 >
                 <Column field="nome" sortable header="Nome" style={{ minWidth: '12rem' }} ></Column>
-                <Column field="capacidade" sortable header="Capacidade" style={{ minWidth: '12rem' }}></Column>
+                <Column 
+                    header="Disciplina" 
+                    field="disciplina" sortable
+                    style={{ minWidth: '12rem' }}> 
+                </Column>
                 <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
             </DataTable>
         </div>
     </section>
+
+    <Dialog className="class-details-data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => {if (!details) return; setDetails(false); }}>
+        <div className="data-dialog-item">
+            <h3>Nome</h3>
+            <span>{selectedClass.nome}</span>
+        </div>  
+        <div className="data-dialog-item">
+            <h3>Disciplina</h3>
+            <span>{selectedClass.nome}</span>
+        </div>
+        <div className="data-dialog-item">
+            <h3>Alunos</h3>
+            <div className="selected-list">
+                {selectedClass && selectedClass.alunos.map( student => 
+                    <span key={student.matricula}>
+                        <strong>Nome:</strong>{student.nome} <br/>
+                        <strong>Matricula:</strong> {student.matricula}
+                    </span>)
+                }
+            </div>
+        </div>
+    </Dialog>
     </>
     );
 }
