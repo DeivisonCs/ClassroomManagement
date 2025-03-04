@@ -9,8 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ifba.ms_user.models.enums.OccupationType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,18 +25,20 @@ public class Account implements UserDetails{
 	private Long id;
 	
 	@Column(nullable = false, unique = true)
-	private String humanReadableId;
+	private String registration;
 	
 	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false)
-	private OccupationType occupation;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Occupation occupation;
 	
 	@Column(nullable = false)
 	private boolean enabled;
 	
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Person person;
 	
 	@ManyToMany(mappedBy = "accounts")
@@ -46,17 +46,17 @@ public class Account implements UserDetails{
 	
 	public Account() {}
 	
-	public Account(String humanReadableId, String password, OccupationType occupation, Person person) {
-		this.humanReadableId = humanReadableId;
+	public Account(String registration, String password, Occupation occupation, Person person) {
+		this.registration = registration;
 		this.password = password;
 		this.occupation = occupation;
 		this.person = person;
 		this.enabled = true;
 	}
 	
-	public Account(Long id, String humanReadableId, String password, OccupationType occupation, Person person, List<Subject> subjects) {
+	public Account(Long id, String registration, String password, Occupation occupation, Person person, List<Subject> subjects) {
 		this.id = id;
-		this.humanReadableId = humanReadableId;
+		this.registration = registration;
 		this.password = password;
 		this.occupation = occupation;
 		this.person = person;
@@ -72,15 +72,15 @@ public class Account implements UserDetails{
 		return id;
 	}
 	
-	public String getHumanReadableId() {
-		return humanReadableId;
+	public String getRegistration() {
+		return registration;
 	}
 	
 	public String getPassword() {
 		return password;
 	}
 	
-	public OccupationType getOccupation() {
+	public Occupation getOccupation() {
 		return occupation;
 	}
 	
@@ -88,15 +88,15 @@ public class Account implements UserDetails{
 		return subjects;
 	}
 	
-	public void setHumanReadableId(String humanReadableId) {
-		this.humanReadableId = humanReadableId;
+	public void setRegistration(String registration) {
+		this.registration = registration;
 	}
 	
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
-	public void setOccupation(OccupationType occupation) {
+	public void setOccupation(Occupation occupation) {
 		this.occupation = occupation;
 	}
 	
@@ -122,12 +122,12 @@ public class Account implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singletonList(new SimpleGrantedAuthority(occupation.name()));
+		return Collections.singletonList(new SimpleGrantedAuthority(occupation.getName()));
 	}
 	
 	@Override
 	public String getUsername() {
-		return humanReadableId;
+		return registration;
 	}
 	
 	@Override
