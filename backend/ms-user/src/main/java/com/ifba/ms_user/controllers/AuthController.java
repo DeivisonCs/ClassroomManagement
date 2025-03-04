@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ifba.ms_user.dto.AuthDTO;
-import com.ifba.ms_user.dto.TokenResponseDTO;
+import com.ifba.ms_user.dto.AuthDto;
+import com.ifba.ms_user.dto.TokenResponseDto;
 import com.ifba.ms_user.models.Account;
 import com.ifba.ms_user.services.JWTokenService;
 
@@ -25,12 +25,12 @@ public class AuthController {
 	 private JWTokenService tokenService;
 	
 	@PostMapping("/login")
-    public ResponseEntity<TokenResponseDTO> efetuarLogin(@RequestBody  AuthDTO data) {
+    public ResponseEntity<TokenResponseDto> efetuarLogin(@RequestBody  AuthDto data) {
 		var dtoAuth = new UsernamePasswordAuthenticationToken(data.login(), data.password());
 		var authentication = manager.authenticate(dtoAuth);
 		Account account = (Account) authentication.getPrincipal();
 		
-		return ResponseEntity.ok(new TokenResponseDTO(tokenService.gerarToken(account)));
+		return ResponseEntity.ok(new TokenResponseDto(tokenService.gerarToken(account)));
     }
 
 }
