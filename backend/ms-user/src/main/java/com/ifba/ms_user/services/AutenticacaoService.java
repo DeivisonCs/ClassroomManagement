@@ -20,8 +20,7 @@ public class AutenticacaoService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return this.usuarioRepository.findByhumanReadableId(username);
+		return this.usuarioRepository.findByRegistration(username);
 	}
 
 }

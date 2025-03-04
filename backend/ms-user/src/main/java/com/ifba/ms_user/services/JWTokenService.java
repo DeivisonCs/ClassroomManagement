@@ -26,7 +26,7 @@ public class JWTokenService {
             return JWT.create()
                 .withIssuer("ms_user")
                 .withSubject(usuario.getUsername())
-                .withClaim("role", usuario.getOccupation().name())
+                .withClaim("role", usuario.getOccupation().getName())
                 .withExpiresAt(dataExpiracao())
                 .sign(algoritmo);
         } catch (JWTCreationException exception){
