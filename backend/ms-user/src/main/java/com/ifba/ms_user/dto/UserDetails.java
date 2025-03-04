@@ -7,7 +7,7 @@ import com.ifba.ms_user.models.Account;
 import com.ifba.ms_user.models.Subject;
 
 public record UserDetails (
-    String humanReadableId,
+    String registration,
     String occupation,
     String name,
     String email,
@@ -16,7 +16,7 @@ public record UserDetails (
 ) {
     public UserDetails(Account account) {
         this(
-				account.getHumanReadableId(), account.getOccupation().name(),
+				account.getRegistration(), account.getOccupation().getName(),
 				account.getPerson().getName(), account.getPerson().getEmail(),
 				account.getPerson().getCpf(), account.getSubjects()
         );

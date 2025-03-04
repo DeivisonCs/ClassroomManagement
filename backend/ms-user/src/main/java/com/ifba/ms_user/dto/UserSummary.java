@@ -2,21 +2,19 @@ package com.ifba.ms_user.dto;
 
 import com.ifba.ms_user.models.Account;
 import com.ifba.ms_user.models.Person;
-import com.ifba.ms_user.models.enums.OccupationType;
 
 public record UserSummary(
-	Long id,
-	String nome,
+	String registration,
+	String name,
 	String email,
-	OccupationType tipo
+	String occupation
 ) {
 	public UserSummary(Account account, Person person) {
 	    this(
-	        account.getId(),
+	        account.getRegistration(),
 	        person.getName(),
 	        person.getEmail(),
-	        account.getOccupation()
+	        account.getOccupation().getName()
 	    );
 	}
-	
 }
