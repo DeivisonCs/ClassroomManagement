@@ -9,7 +9,7 @@ import com.ifba.ms_user.models.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-	boolean existsByhumanReadableId(String humanReadableId);
+	boolean existsByRegistration(String registration);
 
-	public UserDetails findByhumanReadableId(String humanReadableId);
+	public UserDetails findByRegistration(String registration);
 }

@@ -1,21 +1,18 @@
 package com.ifba.ms_user.services;
 
-
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.ifba.ms_user.dto.UserDetails;
 import com.ifba.ms_user.dto.UserForm;
 import com.ifba.ms_user.dto.UserSummary;
 import com.ifba.ms_user.models.Account;
+import com.ifba.ms_user.models.Occupation;
 import com.ifba.ms_user.models.Person;
 import com.ifba.ms_user.repositories.PersonRepository;
 import com.ifba.ms_user.repositories.AccountRepository;
+import com.ifba.ms_user.repositories.OccupationRepository;
 
 @Service
 public class AccountService {
@@ -23,21 +20,19 @@ public class AccountService {
 	private final AccountRepository accountRepository;
 	private final PersonRepository personRepository;
 	private final PasswordEncoder passwordEncoder;
-
-    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+	private final OccupationRepository occupationRepository;
 	
-	public AccountService(AccountRepository accountRepository, PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+	public AccountService(AccountRepository accountRepository, PersonRepository personRepository, PasswordEncoder passwordEncoder, OccupationRepository occupationRepository) {
 		this.accountRepository = accountRepository;
 		this.personRepository = personRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.occupationRepository = occupationRepository;
 	}
 	
 	@Transactional
 	public UserSummary registerAccount(UserForm form) {
-		logger.debug("Registering account with humanReadableId: {}", form.humanReadableId());
-
-		if (accountRepository.existsByhumanReadableId(form.humanReadableId())) {
-			throw new IllegalArgumentException("Human readable id already exists");
+		if (accountRepository.existsByRegistration(form.registration())) {
+			throw new IllegalArgumentException("Registration already exists");
 		}
 		
 		Person person = personRepository.findByCpf(form.cpf())
@@ -46,10 +41,21 @@ public class AccountService {
 		            personRepository.save(newPerson);
 		            return newPerson;
 		        });
+
 		String password = generateDefaultPassword(form.cpf());
 		
-	    Account account = new Account(form.humanReadableId(),
-	    		passwordEncoder.encode(password), form.occupation(), person);
+		Occupation occupation = occupationRepository.findById(form.occupationId())
+		    .orElseThrow(
+				() -> new IllegalArgumentException("Occupation not found")
+			);
+
+	    Account account = new Account(
+			form.registration(),
+	    	passwordEncoder.encode(password), 
+			occupation, 
+			person
+		);
+
 	    account = accountRepository.save(account);
 	
 	   return new UserSummary(account, person);
@@ -57,8 +63,6 @@ public class AccountService {
 	
 	public UserDetails findById(Long id) {
 		Account account = accountRepository.findById(id).get();
-		Person person = account.getPerson();
-		
 		return new UserDetails(account);
 	}
 	
