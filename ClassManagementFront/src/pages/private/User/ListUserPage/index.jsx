@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./styles.css";
 
@@ -9,34 +9,47 @@ import { Tag } from 'primereact/tag';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { listUsers, deleteUser } from "../../../../services/userService";
 
 const ListUserPage = () => {
     const allRoles = ["Admin", "Aluno", "Professor"];
     const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        id: { value: null, matchMode: FilterMatchMode.CONTAINS },
         nome: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         matricula: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         cargo: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
-    const dataList = [
-        {matricula: '1234',nome: 'Teste do Santos',email: 'teste@gmail.com',cargo: 'Professor'},
-        {matricula: '56788',nome: 'Ademiro Damasceno',email: 'adema@gmail.com',cargo: 'Aluno'},
-        {matricula: '4127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Admin'},
-        {matricula: '616127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '1825127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '068127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '613127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '61127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '84127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '823127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '190127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '74127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '612127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '617127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-        {matricula: '58127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'asdd'},
-        {matricula: '198127',nome: 'Gragas de calcinha',email: 'furadeira123@gmail.com',cargo: 'Aluno'},
-    ]
+    const [dataList, setDataList] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const users = await listUsers();
+                const mappedUsers = users.map(user => ({
+                    id: user.id,
+                    nome: user.name,
+                    matricula: user.registration,
+                    email: user.email,
+                    cargo: mapOccupationToRole(user.occupation)
+                }));
+                setDataList(mappedUsers);
+            } catch (error) {
+                console.error("Erro ao buscar usuários:", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    const mapOccupationToRole = (occupation) => {
+        switch (occupation) {
+            case "ADMIN": return "Admin";
+            case "STUDENT": return "Aluno";
+            case "TEACHER": return "Professor";
+            default: return "Desconhecido";
+        }
+    };
 
     const getRoleData = (role) => {
         switch (role) {
@@ -73,8 +86,13 @@ const ListUserPage = () => {
         );
     }
 
-    const removeUser = (id) => {
-        // TODO - função pra remover usuário
+    const removeUser = async (id) => {
+        try {
+            await deleteUser(id);
+            setDataList(dataList.filter(user => user.id !== id));
+        } catch (error) {
+            console.error("Erro ao remover usuário:", error);
+        }
     }
 
     // dialog para confirmar remoção do usuário
@@ -84,7 +102,7 @@ const ListUserPage = () => {
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
-            accept: () => removeUser(user.matricula),
+            accept: () => removeUser(user.id),
             reject: null
         });
     };
