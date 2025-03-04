@@ -1,13 +1,12 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import "./styles.css";
 import { InputText } from "primereact/inputtext";
 import { InputMask } from "primereact/inputmask";
-import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { createUser } from "../../../../services/userService";
+import { createUser, listOccupations } from "../../../../services/userService";
 
 const AddUserPage = () => {
     const toast = useRef(null);
@@ -15,8 +14,45 @@ const AddUserPage = () => {
     const [email, setEmail] = useState('');
     const [cpf, setCpf] = useState('');
     const [role, setRole] = useState('');
-    const [registration, setRegistration] = useState();
-    const allRoles = ["Professor", "Administrador"];
+    const [registration, setRegistration] = useState('');
+    const [registrationMask, setRegistrationMask] = useState('');
+    const [allRoles, setAllRoles] = useState([]);
+
+    const roleMapping = {
+        "TEACHER": "Professor",
+        "STUDENT": "Estudante",
+        "ADMIN": "Administrador",
+    };
+
+    const registrationMaskMapping = {
+        "TEACHER": "9999999",
+        "STUDENT": "99999999999",
+        "ADMIN": "9999",
+    };
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                const roles = await listOccupations();
+                setAllRoles(roles.map(role => ({
+                    label: roleMapping[role.name] || role.name,
+                    value: role.id
+                })));
+            } catch (error) {
+                showToast('error', 'Erro', 'Ocorreu um erro ao carregar os cargos');
+            }
+        };
+
+        fetchRoles();
+    }, []);
+
+    useEffect(() => {
+        const selectedRole = allRoles.find(r => r.value === role);
+        if (selectedRole) {
+            const roleName = Object.keys(roleMapping).find(key => roleMapping[key] === selectedRole.label);
+            setRegistrationMask(registrationMaskMapping[roleName] || '9999999');
+        }
+    }, [role, allRoles]);
 
     const showToast = (severity, summary, message) => {
         toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
@@ -30,7 +66,7 @@ const AddUserPage = () => {
         return emailPattern.test(email);
     }
     function isValidRegistration(registration) {
-        const registrationPattern = /^[0-9]{1,7}$/;
+        const registrationPattern = /^[0-9]{1,11}$/;
         return registrationPattern.test(registration);
     }    
 
@@ -67,10 +103,10 @@ const AddUserPage = () => {
         if(validData()){
             const formattedCpf = removeCpfFormatting(cpf);
             createUser(role, nome, email, formattedCpf, registration)
-            .then(response => {
+            .then(() => {
                 showToast('success', 'Sucesso', 'Usuário cadastrado com sucesso!');
             })
-            .catch(error => {
+            .catch(() => {
                 showToast('error', 'Erro', 'Ocorreu um erro ao tentar cadastrar o usuário');
             });
         }
@@ -124,7 +160,7 @@ const AddUserPage = () => {
                         id="registration"
                         value={registration}
                         onChange={(e) => setRegistration(e.target.value)}
-                        mask="9999999"
+                        mask={registrationMask}
                         slotChar="0"
                     />
                 </div>
