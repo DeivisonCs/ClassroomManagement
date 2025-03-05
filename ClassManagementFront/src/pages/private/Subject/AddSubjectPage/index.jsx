@@ -1,54 +1,82 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import "./styles.css";
 import { InputText } from "primereact/inputtext";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
+import { MultiSelect } from "primereact/multiselect";
 import { Toast } from 'primereact/toast';
-import { MultiSelect } from 'primereact/multiselect';
 import { Dialog } from 'primereact/dialog';
+import { subjectService } from "../../../../services/subjectService";
+import { professorService } from "../../../../services/professorService";
+import { useNavigate } from "react-router-dom";
+
+import './styles.css';
 
 const AddSubjectPage = () => {
+    const navigate = useNavigate();
     const toast = useRef(null);
     const [name, setName] = useState('');
-    const [selectedProfessors, setProfessors] = useState([]);
-    const [selectedClasses, setClasses] = useState([]);
     const [allProfessors, setAllProfessors] = useState([]);
-    const [allClasses, setAllClasses] = useState([]);
+    const [selectedProfessors, setProfessors] = useState([]);
     const [details, setDetails] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setAllProfessors([
-            {matricula:"124241", name: "Testando da Silva"},
-            {matricula:"518523", name: "Arnoldo Martins"},
-            {matricula:"518ra23", name: "Arnoldo Martins"},
-            {matricula:"518dasd3", name: "Arnoldo Martins"},
-            {matricula:"51da3", name: "Arnoldo Martins"},
-            {matricula:"518523", name: "Arnoldo Martins"},
-            {matricula:"518523", name: "Arnoldo Martins"},
-        ])
-        setAllClasses([
-            {id: "15325", name:"Class 1"},
-            {id: "95713", name:"Class 2"},
-        ])
-    }, [])
+        loadProfessors();
+    }, []);
+
+    const loadProfessors = async () => {
+        try {
+            const data = await professorService.getAll();
+            const formattedProfessors = data.map(professor => ({
+                id: professor.id,
+                name: professor.nome,
+                matricula: professor.matricula
+            }));
+            setAllProfessors(formattedProfessors);
+        } catch (error) {
+            console.error('Erro ao carregar professores:', error);
+            showToast('error', 'Erro', 'Falha ao carregar lista de professores');
+        }
+    };
 
     const showToast = (severity, summary, message) => {
-        toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
+        toast.current?.show({ severity, summary, detail: message, life: 3000 });
     };
 
     const validData = () => {
-        // TODO - validar os dados; Usar toast caso erro 
+        if (!name || name.trim() === '') {
+            showToast('warn', 'Formulário Inválido', 'Por favor, preencha o nome da disciplina');
+            return false;
+        }
 
         return true;
-    }
+    };
 
-    function registerSubject() {
-        if(validData()){
-            console.log(name)
-            console.log(selectedProfessors)
-            console.log(selectedClasses)
+    const registerSubject = async () => {
+        if (!validData()) return;
+
+        try {
+            setLoading(true);
+            
+            const disciplinaData = {
+                nome: name,
+                professorMatricula: selectedProfessors.map(p => p.id)
+            };
+            
+            await subjectService.create(disciplinaData);
+            
+            showToast('success', 'Sucesso', 'Disciplina cadastrada com sucesso!');
+            
+            setTimeout(() => {
+                navigate('/subject');
+            }, 2000);
+            
+        } catch (error) {
+            showToast('error', 'Erro', 'Falha ao cadastrar disciplina');
+            console.error(error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
     <>
@@ -56,7 +84,7 @@ const AddSubjectPage = () => {
         <section id="subject-add-section">
             <div className="title-div">
                 <h1 className="page-title main-page-title">Disciplinas</h1>
-                <h2 className="page-title sub-page-title">Cadastar</h2>
+                <h2 className="page-title sub-page-title">Cadastrar</h2>
             </div>
 
             <div id="subject-form-div">
@@ -77,20 +105,12 @@ const AddSubjectPage = () => {
                         optionLabel="name"
                     />
                 </div>
-                <div className="input-div input-dropdown">
-                    <label>Turmas</label>
-                    <MultiSelect
-                        value={selectedClasses}
-                        onChange={(e) => setClasses(e.value)}
-                        options={allClasses}
-                        optionLabel="name"
-                    />
-                </div>
 
                 <div className="buttons-div">
                     <Button 
                         label="Cadastrar" 
-                        onClick={()  => registerSubject()} 
+                        onClick={registerSubject} 
+                        loading={loading}
                         rounded 
                         size="large" />
                     <Button 
@@ -102,7 +122,7 @@ const AddSubjectPage = () => {
             </div>
         </section>
 
-        <Dialog className="subject-data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => {if (!details) return; setDetails(false); }}>
+        <Dialog className="subject-data-dialog" header="Formulário" visible={details} style={{ width: '50vw' }} onHide={() => setDetails(false)}>
             <div className="data-dialog-item">
                 <h3>Nome</h3>
                 <span>{name}</span>
@@ -111,22 +131,14 @@ const AddSubjectPage = () => {
                 <h3>Professores</h3>
                 <div className="selected-list">
                     {selectedProfessors.length > 0? 
-                        selectedProfessors.map( professor => <span key={professor.matricula}>{professor.name}</span>) : <span>Nenhum professor selecionado</span>
+                        selectedProfessors.map(professor => <span key={professor.matricula}>{professor.name}</span>)
+                        : <span>Nenhum professor selecionado</span>
                     }
                 </div>
             </div>
-            <div className="data-dialog-item">
-                <h3>Turmas</h3>
-                <div className="selected-list">
-                    {selectedClasses.length > 0? 
-                        selectedClasses.map( _class => <span key={_class.id}>{_class.name}</span>) : <span>Nenhum turma selecionada</span>
-                    }
-                </div>
-            </div>
-
         </Dialog>
     </>
-    )
-}
+    );
+};
 
 export default AddSubjectPage;

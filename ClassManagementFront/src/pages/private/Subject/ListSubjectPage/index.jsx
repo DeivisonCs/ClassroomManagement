@@ -1,51 +1,50 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useRef } from "react";
 import "./styles.css";
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { subjectService } from "../../../../services/subjectService";
+import { Toast } from 'primereact/toast';
+import { Link } from "react-router-dom";
 
 const ListSubjectPage = () => {
-    const [subjetcs, setSubjects] = useState([])
+    const [subjects, setSubjects] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const toast = useRef(null);
 
     useEffect(() => {
-        setSubjects([
-            {
-                id:"412", 
-                nome: 'subject 1', 
-                professores: [
-                    {id:"16123", nome:"Professor 1"}, 
-                    {id:"94124", nome:"Professor 2"}, 
-                ], 
-                turmas: [
-                    {id:"4512", nome:"Class 1"},
-                    {id:"8151", nome:"Class 2"},
-                ]
-            },
-            {
-                id:"814", 
-                nome: 'subject 2', 
-                professores: [
-                    {id:"5171", nome:"Professor 3"}, 
-                    {id:"'56061'", nome:"Professor 4"}, 
-                ], 
-                turmas: [
-                    {id:"05462", nome:"Class 3"},
-                    {id:"1261", nome:"Class 4"},
-                ]
-            }
-        ]);
-    }, [])
+        loadSubjects();
+    }, []);
 
-    const renderProfessors = (professors) => {
-        return professors.map(professor => professor.nome).join(", ");
-    }
+    const loadSubjects = async () => {
+        try {
+            setLoading(true);
+            console.log('Iniciando chamada para buscar disciplinas');
+            const data = await subjectService.getAll();
+            console.log('Disciplinas recebidas:', data);
+            setSubjects(data);
+        } catch (error) {
+            console.error('Erro ao buscar disciplinas:', error);
+            showToast('error', 'Erro', 'Falha ao carregar disciplinas');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const renderClasses = (classes) => {
-        return classes.map(_class => _class.nome).join(", ");
-    }
+    const showToast = (severity, summary, detail) => {
+        toast.current?.show({ severity, summary, detail, life: 3000 });
+    };
+
+    const renderProfessors = (rowData) => {
+        if (!rowData.professores || !rowData.professores.length) return 'Sem professores';
+        return rowData.professores.map(professor => professor.nome).join(", ");
+    };
+
+    const renderClasses = (rowData) => {
+        if (!rowData.turmas || !rowData.turmas.length) return 'Sem turmas';
+        return rowData.turmas.map(turma => turma.nome).join(", ");
+    };
 
     const actions = (rowData) => {
         return (
@@ -56,19 +55,23 @@ const ListSubjectPage = () => {
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
                     onClick={() => confirmDelete(rowData)}/>
-                {/* <Button icon="pi pi-times"></Button> */}
             </div>
         );
-    }
+    };
 
-    const removeSubject = (id) => {
-        // TODO - função pra remover disciplina
-    }
+    const removeSubject = async (id) => {
+        try {
+            await subjectService.delete(id);
+            showToast('success', 'Sucesso', 'Disciplina removida com sucesso');
+            loadSubjects();
+        } catch (error) {
+            showToast('error', 'Erro', 'Falha ao remover disciplina');
+        }
+    };
 
-    // dialog para confirmar remoção da disciplina
     const confirmDelete = (subject) => {
         confirmDialog({
-            message: 'Deseja remover '+ subject.nome +'?',
+            message: `Deseja remover ${subject.nome}?`,
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             defaultFocus: 'reject',
@@ -77,8 +80,17 @@ const ListSubjectPage = () => {
         });
     };
 
+    const header = (
+        <div className="table-header">
+            <Link to="/subjects/add">
+                <Button label="Nova Disciplina" icon="pi pi-plus" />
+            </Link>
+        </div>
+    );
+
     return(
     <>
+    <Toast ref={toast} />
     <ConfirmDialog />
     <section id="list-page">
         <div className="title-div">
@@ -88,35 +100,27 @@ const ListSubjectPage = () => {
 
         <div className="list-table-div" >
             <DataTable 
-                value={subjetcs}
+                value={subjects}
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
-                showGridlines 
-                tableStyle={{ minWidth: '80vw',  maxWidth: '100vw'}}
+                showGridlines
+                header={header}
+                tableStyle={{ minWidth: '80vw', maxWidth: '100vw'}}
                 paginator 
                 rows={5}
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 removableSort
+                loading={loading}
                 >
-                <Column field="nome" sortable header="Nome" style={{ minWidth: '12rem' }} ></Column>
-                <Column 
-                    header="Professores" 
-                    body={(rowData) => renderProfessors(rowData.professores)} 
-                    style={{ minWidth: '12rem' }}> 
-                </Column>
-                <Column 
-                    header="Turmas" 
-                    body={(rowData) => renderClasses(rowData.turmas)} 
-                    field="turmas.nome" 
-                    style={{ minWidth: '12rem' }}>
-                </Column>
-                <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} ></Column>
+                <Column field="nome" sortable header="Nome" style={{ minWidth: '12rem' }} />
+                <Column header="Professores" body={renderProfessors} style={{ minWidth: '12rem' }} />
+                <Column header="Turmas" body={renderClasses} style={{ minWidth: '12rem' }} />
+                <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} />
             </DataTable>
         </div>
     </section>
     </>
     );
-}
+};
 
-
-export default ListSubjectPage;
+export default ListSubjectPage; 
