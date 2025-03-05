@@ -1,4 +1,4 @@
-package main.java.com.ifba.salas_service.models;
+package com.ifba.salas_service.models;
 
 import jakarta.persistence.*;
 import lombok.*;

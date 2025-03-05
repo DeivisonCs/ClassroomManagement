@@ -1,4 +1,4 @@
-package main.java.com.ifba.salas_service.controllers;
+package com.ifba.salas_service.controllers;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import main.java.com.ifba.salas_service.models.Sala;
-import main.java.com.ifba.salas_service.services.SalaService;
+import com.ifba.salas_service.models.Sala;
+import com.ifba.salas_service.services.SalaService;
 
 @RestController
 @RequestMapping("/api/salas")
