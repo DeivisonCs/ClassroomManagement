@@ -14,4 +14,5 @@ import lombok.Setter;
 public class SalaResponseDTO {
     private Long id;
     private String nome;
+    private Integer capacidade;
 }

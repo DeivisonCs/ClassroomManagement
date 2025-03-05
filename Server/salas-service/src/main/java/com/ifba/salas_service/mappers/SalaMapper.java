@@ -11,6 +11,7 @@ public class SalaMapper {
         if (dto == null) return null;
         Sala sala = new Sala();
         sala.setNome(dto.getNome());
+        sala.setCapacidade(dto.getCapacidade());
         return sala;
     }
 
@@ -19,6 +20,7 @@ public class SalaMapper {
         SalaResponseDTO dto = new SalaResponseDTO();
         dto.setId(sala.getId());
         dto.setNome(sala.getNome());
+        dto.setCapacidade(sala.getCapacidade());
         return dto;
     }
 }

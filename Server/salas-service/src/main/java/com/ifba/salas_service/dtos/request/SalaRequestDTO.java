@@ -13,4 +13,6 @@ import lombok.Setter;
 @Data
 public class SalaRequestDTO {
     private String nome;
+
+    private Integer capacidade;
 }
