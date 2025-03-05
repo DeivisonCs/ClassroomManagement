@@ -5,11 +5,12 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Toast } from 'primereact/toast';
 import { useNavigate } from "react-router-dom";
+import { authUser } from "../../../services/userService";
 
 const LogInPage = () => {
     const toast = useRef(null);
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
+    const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [logged, setLogged] = useState(false);
 
@@ -17,14 +18,26 @@ const LogInPage = () => {
         toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
     };
 
-    //TODO
-    // chamar back-end e receber o token aqui
-    function login() {
-        setLogged(true);
-        show('success', 'Logado', 'Bem Vindo!'); // Usar retorno do back pra editar a mensagem
-        setTimeout(() => {
-            navigate('/ifba/home');
-        }, 2500);
+    async function login() {
+        try {
+            const response = await authUser(user, password);
+
+            if (response.token) {
+                sessionStorage.setItem('token', response.token);
+                setLogged(true);
+                show('success', 'Logado', 'Bem Vindo!');
+                console.log('Login bem-sucedido');
+                setTimeout(() => {
+                    navigate('/ifba/home');
+                }, 2500);
+            } else {
+                show('error', 'Erro', 'Credenciais inválidas');
+                console.log('Credenciais inválidas');
+            }
+        } catch (error) {
+            show('error', 'Erro', 'Ocorreu um erro ao tentar logar');
+            console.log('Erro ao tentar logar', error);
+        }
     }
 
     return (
@@ -39,11 +52,11 @@ const LogInPage = () => {
 
                 <div className={`inputs-fields ${logged ? 'login-forms-animation' : ''}`}>
                     <div>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="user">User</label>
                         <InputText
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            id="user"
+                            value={user}
+                            onChange={(e) => setUser(e.target.value)}
                         />
                     </div>
 
