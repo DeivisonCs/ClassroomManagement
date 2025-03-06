@@ -29,7 +29,10 @@ public class SecurityConfigurations {
 	            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .authorizeHttpRequests(req -> {
 	            	req.requestMatchers(HttpMethod.GET, "/**").permitAll();
-	            	  req.requestMatchers(HttpMethod.POST, "/**").hasAnyAuthority("TEACHER");
+	            	  req.requestMatchers(HttpMethod.POST, "/**").hasAnyAuthority("TEACHER", "ADMIN");
+	            	  req.requestMatchers(HttpMethod.DELETE, "/**").hasAnyAuthority("TEACHER", "ADMIN");
+	            	  req.requestMatchers(HttpMethod.PATCH, "/**").hasAnyAuthority("TEACHER", "ADMIN");
+	            	  req.requestMatchers(HttpMethod.PUT, "/**").hasAnyAuthority("TEACHER", "ADMIN");
 	                req.anyRequest().authenticated();
 	            })
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
