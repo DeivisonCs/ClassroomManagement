@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:8082/ms-users';
 const BASE_ACCOUNT_ENDPOINT = '/account';
 
 const LOGIN_ENDPOINT = '/auth/login';
