@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Dialog } from 'primereact/dialog';
+import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
 import { Toast } from 'primereact/toast';
-import { Dialog } from 'primereact/dialog';
-import { subjectService } from "../../../../services/subjectService";
-import { professorService } from "../../../../services/professorService";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { classService } from "../../../../services/classService"; // Adicionado importação
+import { professorService } from "../../../../services/professorService";
+import { subjectService } from "../../../../services/subjectService";
 
 import './styles.css';
 
@@ -16,11 +17,14 @@ const AddSubjectPage = () => {
     const [name, setName] = useState('');
     const [allProfessors, setAllProfessors] = useState([]);
     const [selectedProfessors, setProfessors] = useState([]);
+    const [allClasses, setAllClasses] = useState([]); // Novo estado para turmas
+    const [selectedClasses, setSelectedClasses] = useState([]); // Novo estado para turmas selecionadas
     const [details, setDetails] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         loadProfessors();
+        loadClasses(); // Carregar turmas ao inicializar
     }, []);
 
     const loadProfessors = async () => {
@@ -35,6 +39,17 @@ const AddSubjectPage = () => {
         } catch (error) {
             console.error('Erro ao carregar professores:', error);
             showToast('error', 'Erro', 'Falha ao carregar lista de professores');
+        }
+    };
+
+    // Nova função para carregar turmas
+    const loadClasses = async () => {
+        try {
+            const data = await classService.getAll();
+            setAllClasses(data);
+        } catch (error) {
+            console.error('Erro ao carregar turmas:', error);
+            showToast('error', 'Erro', 'Falha ao carregar lista de turmas');
         }
     };
 
@@ -53,14 +68,18 @@ const AddSubjectPage = () => {
 
     const registerSubject = async () => {
         if (!validData()) return;
-
+    
         try {
             setLoading(true);
             
+            // Corrigir o formato dos dados
             const disciplinaData = {
                 nome: name,
-                professorMatricula: selectedProfessors.map(p => p.id)
+                professorMatricula: selectedProfessors.map(p => p.id),
+                turmasIds: selectedClasses.map(c => c.id) // Enviar apenas os IDs das turmas
             };
+            
+            console.log("Enviando dados:", disciplinaData);
             
             await subjectService.create(disciplinaData);
             
@@ -105,6 +124,19 @@ const AddSubjectPage = () => {
                         optionLabel="name"
                     />
                 </div>
+                
+                {/* Novo campo para seleção de turmas */}
+                <div className="input-div input-dropdown">
+                    <label>Turmas</label>
+                    <MultiSelect
+                        value={selectedClasses}
+                        onChange={(e) => setSelectedClasses(e.value)}
+                        options={allClasses}
+                        optionLabel="nome"
+                        placeholder="Selecione as turmas"
+                        display="chip"
+                    />
+                </div>
 
                 <div className="buttons-div">
                     <Button 
@@ -133,6 +165,17 @@ const AddSubjectPage = () => {
                     {selectedProfessors.length > 0? 
                         selectedProfessors.map(professor => <span key={professor.matricula}>{professor.name}</span>)
                         : <span>Nenhum professor selecionado</span>
+                    }
+                </div>
+            </div>
+            
+            {/* Adicionar seção de turmas selecionadas na dialog */}
+            <div className="data-dialog-item">
+                <h3>Turmas</h3>
+                <div className="selected-list">
+                    {selectedClasses.length > 0 ? 
+                        selectedClasses.map(turma => <span key={turma.id}>{turma.nome}</span>)
+                        : <span>Nenhuma turma selecionada</span>
                     }
                 </div>
             </div>

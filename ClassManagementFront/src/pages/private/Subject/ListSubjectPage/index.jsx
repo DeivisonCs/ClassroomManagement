@@ -1,32 +1,57 @@
-import React, { useEffect, useState, useRef } from "react";
-import "./styles.css";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
+import { Column } from 'primereact/column';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { subjectService } from "../../../../services/subjectService";
+import { DataTable } from 'primereact/datatable';
 import { Toast } from 'primereact/toast';
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { classService } from "../../../../services/classService"; // Adicionado
+import { subjectService } from "../../../../services/subjectService";
+import "./styles.css";
 
 const ListSubjectPage = () => {
     const [subjects, setSubjects] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [classes, setClasses] = useState([]); // Estado para armazenar todas as turmas
     const toast = useRef(null);
 
     useEffect(() => {
-        loadSubjects();
+        loadData();
     }, []);
 
-    const loadSubjects = async () => {
+    // Carregar disciplinas e turmas em uma única função
+    const loadData = async () => {
         try {
             setLoading(true);
-            console.log('Iniciando chamada para buscar disciplinas');
-            const data = await subjectService.getAll();
-            console.log('Disciplinas recebidas:', data);
-            setSubjects(data);
+            
+            // Carregar disciplinas e turmas em paralelo
+            const [disciplinasData, turmasData] = await Promise.all([
+                subjectService.getAll(),
+                classService.getAll()
+            ]);
+            
+            // Armazenar turmas em um estado separado
+            setClasses(turmasData);
+            
+            // Processar disciplinas para incluir turmas associadas
+            const disciplinasProcessadas = disciplinasData.map(disciplina => {
+                // Encontrar todas as turmas desta disciplina
+                const turmasAssociadas = turmasData.filter(turma => 
+                    turma.disciplina?.id === disciplina.id
+                );
+                
+                // Adicionar turmas à disciplina
+                return {
+                    ...disciplina,
+                    turmasAssociadas: turmasAssociadas
+                };
+            });
+            
+            setSubjects(disciplinasProcessadas);
+            
         } catch (error) {
-            console.error('Erro ao buscar disciplinas:', error);
-            showToast('error', 'Erro', 'Falha ao carregar disciplinas');
+            console.error('Erro ao carregar dados:', error);
+            showToast('error', 'Erro', 'Falha ao carregar dados');
         } finally {
             setLoading(false);
         }
@@ -36,14 +61,13 @@ const ListSubjectPage = () => {
         toast.current?.show({ severity, summary, detail, life: 3000 });
     };
 
-    const renderProfessors = (rowData) => {
-        if (!rowData.professores || !rowData.professores.length) return 'Sem professores';
-        return rowData.professores.map(professor => professor.nome).join(", ");
-    };
-
     const renderClasses = (rowData) => {
-        if (!rowData.turmas || !rowData.turmas.length) return 'Sem turmas';
-        return rowData.turmas.map(turma => turma.nome).join(", ");
+        // Usar as turmas associadas que foram processadas
+        const turmasAssociadas = rowData.turmasAssociadas || [];
+        
+        if (turmasAssociadas.length === 0) return 'Sem turmas';
+        
+        return turmasAssociadas.map(turma => turma.nome).join(", ");
     };
 
     const actions = (rowData) => {
@@ -63,7 +87,7 @@ const ListSubjectPage = () => {
         try {
             await subjectService.delete(id);
             showToast('success', 'Sucesso', 'Disciplina removida com sucesso');
-            loadSubjects();
+            loadData(); // Recarregar todos os dados
         } catch (error) {
             showToast('error', 'Erro', 'Falha ao remover disciplina');
         }
@@ -113,7 +137,6 @@ const ListSubjectPage = () => {
                 loading={loading}
                 >
                 <Column field="nome" sortable header="Nome" style={{ minWidth: '12rem' }} />
-                <Column header="Professores" body={renderProfessors} style={{ minWidth: '12rem' }} />
                 <Column header="Turmas" body={renderClasses} style={{ minWidth: '12rem' }} />
                 <Column body={(rowData) => actions(rowData)} style={{ minWidth: 'fit-content', maxWidth:'12rem' }} />
             </DataTable>
@@ -123,4 +146,4 @@ const ListSubjectPage = () => {
     );
 };
 
-export default ListSubjectPage; 
+export default ListSubjectPage;
