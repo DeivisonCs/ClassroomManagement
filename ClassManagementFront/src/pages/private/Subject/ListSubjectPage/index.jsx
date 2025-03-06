@@ -80,13 +80,13 @@ const ListSubjectPage = () => {
         });
     };
 
-    const header = (
-        <div className="table-header">
-            <Link to="/subjects/add">
-                <Button label="Nova Disciplina" icon="pi pi-plus" />
-            </Link>
-        </div>
-    );
+    // const header = (
+    //     <div className="table-header">
+    //         <Link to="/subjects/add">
+    //             <Button label="Nova Disciplina" icon="pi pi-plus" />
+    //         </Link>
+    //     </div>
+    // );
 
     return(
     <>
@@ -104,7 +104,7 @@ const ListSubjectPage = () => {
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
                 showGridlines
-                header={header}
+                // header={header}
                 tableStyle={{ minWidth: '80vw', maxWidth: '100vw'}}
                 paginator 
                 rows={5}

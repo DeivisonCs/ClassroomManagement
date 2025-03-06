@@ -9,7 +9,7 @@ const pageMenuOptions = {
         { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/classroom' },
         { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/subject' },
         { label: 'Turmas', icon: 'users', linkTo: '/ifba/class' },
-        { label: 'Aulas', icon: 'chalkboard-teacher', linkTo: '/ifba/lesson' },
+        { label: 'Aulas', icon: 'clipboard', linkTo: '/ifba/lesson' },
     ],
     users: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-user' },
