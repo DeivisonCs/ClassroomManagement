@@ -65,12 +65,12 @@ export const createColumnTemplates = (onTurmaClick, onShowGroupDetails, onDelete
             tooltipOptions={{ position: "top" }}
             icon="pi pi-list"
             onClick={() => onShowGroupDetails(rowData)}
-            className="p-button-info"
+            className="p-button-info thematic"
           />
         )}
 
         <Button
-          className="tematic"
+          className="thematic"
           tooltip="Remover Aula"
           tooltipOptions={{ position: "top" }}
           icon="pi pi-trash"

@@ -47,7 +47,7 @@ const ListClassroomPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Sala" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"

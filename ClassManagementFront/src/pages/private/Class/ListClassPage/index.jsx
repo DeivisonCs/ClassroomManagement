@@ -48,13 +48,13 @@ const ListClassPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Turma" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
                     onClick={() => confirmDelete(rowData)}/>
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Ver detalhes" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-bars"

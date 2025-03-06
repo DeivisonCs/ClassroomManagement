@@ -85,7 +85,8 @@ const AddClassroomPage = () => {
                     />
                 </div>
 
-                <Button 
+                <Button
+                    className="thematic"
                     onClick={() => registerClassroom()} 
                     label="Cadastrar" 
                     loading={loading}

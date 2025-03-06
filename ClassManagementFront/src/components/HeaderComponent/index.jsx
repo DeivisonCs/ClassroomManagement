@@ -11,7 +11,7 @@ const HeaderComponent = () => {
 
     return (
         <header id="main-header">
-            <Link to="/ifba/home" className="header-emblem-icon-span"><img src="/SchoolEmblem.ico" alt="School Emblem" /></Link>
+            <Link to="/ifba/home" className="header-emblem-icon-span"><img src="/IFBA_ICON.ico" alt="IFBA icon" /></Link>
 
             <div 
                 onClick={() => setMenuActive(prev => !prev)} 

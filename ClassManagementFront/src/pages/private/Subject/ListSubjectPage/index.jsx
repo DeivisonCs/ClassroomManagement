@@ -50,7 +50,7 @@ const ListSubjectPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Disciplina" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"

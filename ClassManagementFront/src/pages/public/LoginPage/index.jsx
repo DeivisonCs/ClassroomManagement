@@ -44,7 +44,7 @@ const LogInPage = () => {
         <section id="login-section">
             <Toast ref={toast} />
             <div className={`logo-img-div ${logged ? 'emblem-animation-div' : ''}`}>
-                <img className={logged ? 'emblem-animation' : ''} src="/SchoolEmblem.png" alt="School Emblem" />
+                <img className={logged ? 'emblem-animation' : ''} src="/IFBA_LOGO.png" alt="IFBA Logo" />
             </div>
 
             <div className={`forms-div ${logged ? 'form-animation-div' : ''}`}>
