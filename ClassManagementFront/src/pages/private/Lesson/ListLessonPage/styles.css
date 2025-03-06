@@ -1,0 +1,65 @@
+.list-table-div {
+    width: 80vw;
+}
+
+.p-datatable {
+    width: 100%;
+}
+
+.actions-div {
+    display: flex;
+    gap: 5px;
+}
+
+.sala-with-tooltip {
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+
+.turma-details-dialog .p-dialog-content {
+    padding: 1.5rem;
+}
+
+.turma-details .detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.turma-details .detail-section h3 {
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.student-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.student-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.student-list li:last-child {
+    border-bottom: none;
+}
+
+.no-data-message {
+    font-style: italic;
+    color: #777;
+}
+
+.p-button-text.p-button-plain {
+    color: #3B82F6;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.p-button-text.p-button-plain:hover {
+    background: transparent;
+    color: #2563EB;
+}
