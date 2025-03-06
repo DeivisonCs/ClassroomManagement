@@ -7,4 +7,5 @@ import com.ifba.salas_service.models.TurmaSala;
 
 @Repository
 public interface TurmaSalaRepository extends JpaRepository<TurmaSala, Long> {
+    void deleteByTurmaId(Long turmaId);
 }

@@ -1,48 +1,66 @@
-import React from "react";
 import { Dialog } from "primereact/dialog";
+import { useEffect, useState } from "react";
+import { classService } from "../../../../../services/classService";
 
-const TurmaDetailsDialog = ({ turma, visible, onHide }) => {
-  if (!turma) return null;
+export default function TurmaDetailsDialog({ turma, visible, onHide }) {
+  const [turmaDetalhada, setTurmaDetalhada] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (visible && turma) {
+      carregarDetalhesTurma(turma.id);
+    }
+  }, [visible, turma]);
+
+  const carregarDetalhesTurma = async (turmaId) => {
+    try {
+      setLoading(true);
+      const detalhes = await classService.getById(turmaId);
+      setTurmaDetalhada(detalhes);
+    } catch (error) {
+      console.error("Erro ao carregar detalhes da turma:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderizarAlunos = () => {
+    if (!turmaDetalhada || !turmaDetalhada.alunos || turmaDetalhada.alunos.length === 0) {
+      return <p>Nenhum aluno matriculado nesta turma.</p>;
+    }
+
+    return (
+      <ul className="student-list">
+        {turmaDetalhada.alunos.map((aluno) => (
+          <li key={aluno.matricula}>
+            <strong>Nome:</strong> {aluno.nome}
+            <br />
+            <strong>Matrícula:</strong> {aluno.matricula}
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <Dialog
       header={`Detalhes da Turma: ${turma?.nome || ""}`}
       visible={visible}
-      className="turma-details-dialog"
       style={{ width: "50vw" }}
       onHide={onHide}
     >
-      <div className="turma-details">
-        <div className="detail-section">
+      {loading ? (
+        <p>Carregando detalhes da turma...</p>
+      ) : (
+        <div className="turma-details">
           <h3>Informações Gerais</h3>
-          <p>
-            <strong>Turma:</strong> {turma.nome}
-          </p>
-          <p>
-            <strong>Disciplina:</strong> {turma.disciplina?.nome}
-          </p>
-        </div>
+          <p><strong>Turma:</strong> {turmaDetalhada?.nome || turma?.nome}</p>
+          <p><strong>Disciplina:</strong> {turmaDetalhada?.disciplina?.nome || turma?.disciplina?.nome}</p>
 
-        <div className="detail-section">
           <h3>Alunos Matriculados</h3>
-          {turma.alunos && turma.alunos.length > 0 ? (
-            <ul className="student-list">
-              {turma.alunos.map((aluno) => (
-                <li key={aluno.matricula || aluno.id}>
-                  <strong>{aluno.nome}</strong> (Matrícula:{" "}
-                  {aluno.matricula || aluno.id})
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="no-data-message">
-              Nenhum aluno matriculado nesta turma.
-            </p>
-          )}
+          {renderizarAlunos()}
         </div>
-      </div>
+      )}
     </Dialog>
   );
-};
-
-export default TurmaDetailsDialog;
+}

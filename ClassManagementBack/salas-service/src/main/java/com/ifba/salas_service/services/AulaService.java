@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ifba.salas_service.dtos.request.AulaRequestDTO;
 import com.ifba.salas_service.dtos.response.AulaResponseDTO;
@@ -15,6 +16,7 @@ import com.ifba.salas_service.models.Turma;
 import com.ifba.salas_service.repositories.AulaRepository;
 import com.ifba.salas_service.repositories.DisciplinaRepository;
 import com.ifba.salas_service.repositories.TurmaRepository;
+import com.ifba.salas_service.repositories.TurmaSalaRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ public class AulaService {
     private final AulaRepository aulaRepository;
     private final DisciplinaRepository disciplinaRepository;
     private final TurmaRepository turmaRepository;
+    private final TurmaSalaRepository turmaSalaRepository; // Injetar o repositório TurmaSala
 
     public AulaResponseDTO criarAula(AulaRequestDTO dto) {
         
@@ -75,10 +78,18 @@ public class AulaService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional // Garantir que a operação seja atômica
     public void deletarAula(Long id) {
-        if (!aulaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Aula não encontrada");
-        }
-        aulaRepository.deleteById(id);
+        // Obter a aula antes de excluir para ter acesso à turma_id
+        Aula aula = aulaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada"));
+        
+        Long turmaId = aula.getTurma().getId();
+        
+        // Primeiro deletar os registros relacionados em turma_sala
+        turmaSalaRepository.deleteByTurmaId(turmaId);
+        
+        // Depois deletar a aula
+        aulaRepository.delete(aula);
     }
 }
