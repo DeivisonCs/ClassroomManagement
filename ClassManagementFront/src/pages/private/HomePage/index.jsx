@@ -9,6 +9,7 @@ const pageMenuOptions = {
         { label: 'Salas', icon: 'building-columns', linkTo: '/ifba/classroom' },
         { label: 'Disciplinas', icon: 'book', linkTo: '/ifba/subject' },
         { label: 'Turmas', icon: 'users', linkTo: '/ifba/class' },
+        { label: 'Aulas', icon: 'chalkboard-teacher', linkTo: '/ifba/lesson' },
     ],
     users: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-user' },
@@ -25,6 +26,10 @@ const pageMenuOptions = {
     subject: [
         { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-subject' },
         { label: 'Listar', icon: 'list', linkTo: '/ifba/list-subject' }
+    ],
+    lesson: [
+        { label: 'Adicionar', icon: 'plus', linkTo: '/ifba/add-lesson' },
+        { label: 'Listar', icon: 'list', linkTo: '/ifba/list-lesson' }
     ]
 };
 
@@ -56,6 +61,7 @@ const HomePage = () => {
             case "classroom": return "Salas";
             case "class": return "Turmas";
             case "subject": return "Disciplinas";
+            case "lesson": return "Aulas"; 
             default: navigate("/");
         }
     }

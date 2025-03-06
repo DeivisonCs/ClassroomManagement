@@ -27,6 +27,7 @@ public class AulaService {
     private final TurmaRepository turmaRepository;
 
     public AulaResponseDTO criarAula(AulaRequestDTO dto) {
+        
         // Carregar Disciplina
         Disciplina disc = disciplinaRepository.findById(dto.getDisciplinaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Disciplina não encontrada"));
