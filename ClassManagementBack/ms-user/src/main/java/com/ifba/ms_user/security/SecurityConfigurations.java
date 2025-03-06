@@ -1,5 +1,7 @@
 package com.ifba.ms_user.security;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,7 @@ public class SecurityConfigurations {
 		return http.csrf(csrf -> csrf.disable())
 	            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .authorizeHttpRequests(req -> {
-	                req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
-	                req.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+	            	  req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
 	                req.anyRequest().authenticated();
 	            })
 	            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -48,7 +49,4 @@ public class SecurityConfigurations {
 	 public PasswordEncoder passwordEncoder() {
 	      return new BCryptPasswordEncoder();
 	 }
-
-
-	
 }
