@@ -112,12 +112,23 @@ export const groupContinuousLessons = (lessons) => {
         groups.push(currentGroup);
     }
     
+    // Rastrear os IDs das aulas que estão em grupos reais (com múltiplas aulas)
+    const lessonsInGroups = new Set();
+    groups.forEach(group => {
+        if (group.lessonCount > 1) {
+            group.items.forEach(item => {
+                lessonsInGroups.add(item.scheduleId);
+            });
+        }
+    });
+    
     const result = groups.map(group => {
         const isRealGroup = group.lessonCount > 1;
         const firstItem = group.items[0];
         
         return {
             id: firstItem.lessonId,
+            scheduleId: firstItem.scheduleId,
             disciplina: {
                 id: group.disciplinaId,
                 nome: group.disciplinaNome
@@ -155,8 +166,15 @@ export const groupContinuousLessons = (lessons) => {
         };
     });
     
+    // Filtrar o resultado para remover aulas individuais que já estão em grupos
+    const filteredResult = result.filter(item => 
+        item.isGroup || // Manter todos os grupos reais
+        !lessonsInGroups.has(item.currentSchedule.id) // Manter apenas aulas individuais que não estão em grupos
+    );
+    
+    // Remover duplicatas baseadas na chave única
     const uniqueGroups = {};
-    result.forEach(group => {
+    filteredResult.forEach(group => {
         const uniqueKey = `${group.groupKey}|${group.startTime}-${group.endTime}`;
         
         if (!uniqueGroups[uniqueKey]) {
