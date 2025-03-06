@@ -1,0 +1,51 @@
+/* src/pages/NotFound.css */
+.notfound-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-color: #f7f7f7; */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .notfound-content {
+    text-align: center;
+    /* background-color: #fff; */
+    padding: 30px;
+    /* border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  }
+  
+  .notfound-image {
+    max-width: 300px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .notfound-title {
+    font-size: 2.5rem;
+    color: #e74c3c;
+    margin: 20px 0;
+  }
+  
+  .notfound-description {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 50px;
+  }
+  
+  .notfound-button {
+    text-decoration: none;
+    padding: 12px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s ease;
+  }
+  
+  .notfound-button:hover {
+    background-color: var(--main-color);
+  }
+  

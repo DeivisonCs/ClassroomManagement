@@ -13,6 +13,7 @@ import AddClassPage from "../pages/private/Class/AddClassPage";
 import ListClassPage from "../pages/private/Class/ListClassPage";
 import AddLessonPage from "../pages/private/Lesson/AddLessonPage";
 import ListLessonPage from "../pages/private/Lesson/ListLessonPage";
+import NotFoundPage from "../pages/public/NotFoundPage";
 
 const AppRoutes = () => {
     return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                 <Route path="/ifba/list-class" element={<><HeaderComponent/><ListClassPage/></>} />
                 <Route path="/ifba/add-lesson" element={<><HeaderComponent/><AddLessonPage/></>} />
                 <Route path="/ifba/list-lesson" element={<><HeaderComponent/><ListLessonPage/></>} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
     );
