@@ -86,7 +86,7 @@ const AddSubjectPage = () => {
             showToast('success', 'Sucesso', 'Disciplina cadastrada com sucesso!');
             
             setTimeout(() => {
-                navigate('/subject');
+                navigate('/ifba/subject');
             }, 2000);
             
         } catch (error) {

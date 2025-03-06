@@ -30,13 +30,5 @@ public class PopulateIntialData implements CommandLineRunner {
         accountService.registerAccount(
             new UserForm(1L, "admin", "admin@gmail.com", "84963974088", "0000")
         );
-
-        accountService.registerAccount(
-            new UserForm(2L, "teacher", "teacher@gmail.com", "29105289017", "0000000")
-        );
-
-        accountService.registerAccount(
-            new UserForm(3L, "student", "student@gmail.com", "49616929054", "00000000000")
-        );
     }
 }
