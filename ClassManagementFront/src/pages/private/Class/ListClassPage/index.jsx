@@ -48,13 +48,13 @@ const ListClassPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Turma" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
                     onClick={() => confirmDelete(rowData)}/>
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Ver detalhes" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-bars"
@@ -85,13 +85,13 @@ const ListClassPage = () => {
         });
     };
     
-    const header = (
-        <div className="table-header">
-            <Link to="/classes/add">
-                <Button label="Nova Turma" icon="pi pi-plus" />
-            </Link>
-        </div>
-    );
+    // const header = (
+    //     <div className="table-header">
+    //         <Link to="/classes/add">
+    //             <Button label="Nova Turma" icon="pi pi-plus" />
+    //         </Link>
+    //     </div>
+    // );
 
     return(
     <>
@@ -110,7 +110,7 @@ const ListClassPage = () => {
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
                 showGridlines 
-                header={header}
+                // header={header}
                 tableStyle={{ minWidth: '80vw', maxWidth: '100vw'}}
                 paginator 
                 rows={5}

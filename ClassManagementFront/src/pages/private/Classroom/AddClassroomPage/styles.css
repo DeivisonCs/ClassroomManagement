@@ -1,4 +1,4 @@
-section#class-add-section {
+section#classroom-add-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +22,7 @@ section#class-add-section {
     
     }
 
-    div#class-form-div {
+    div#classroom-form-div {
         transform: translateY(100px);
 
         display: grid;
@@ -52,7 +52,7 @@ section#class-add-section {
 }
 
 @media (max-width: 790px) {
-    section#class-add-section div#class-form-div {
+    section#classroom-add-section div#classroom-form-div {
         grid-template-columns: 1fr;
 
         button {

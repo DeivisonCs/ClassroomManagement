@@ -137,13 +137,14 @@ const AddClassPage = () => {
 
                 <div className="buttons-div">
                     <Button 
+                        className="thematic"
                         label="Cadastrar" 
                         onClick={registerClass}
                         loading={loading}
                         rounded 
                         size="large"/>
                     <Button 
-                        className="view-data-button" 
+                        className="view-data-button thematic"
                         icon="pi pi-list"
                         tooltip="Ver Detalhes do Formulário"
                         onClick={() => setDetails(true)}/>

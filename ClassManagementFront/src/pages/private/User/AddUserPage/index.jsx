@@ -165,7 +165,7 @@ const AddUserPage = () => {
                     />
                 </div>
 
-                <Button onClick={()  => registerUser()} label="Cadastrar" rounded size="large" />
+                <Button className="thematic" onClick={()  => registerUser()} label="Cadastrar" rounded size="large" />
             </div>
         </section>
     </>

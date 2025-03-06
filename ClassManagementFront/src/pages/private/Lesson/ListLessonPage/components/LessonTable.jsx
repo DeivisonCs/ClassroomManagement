@@ -22,13 +22,13 @@ const LessonTable = ({
     actionsTemplate
   } = createColumnTemplates(onTurmaClick, onShowGroupDetails, onDelete);
 
-  const header = (
-    <div className="table-header">
-      <Link to="/ifba/add-lesson">
-        <Button label="Nova Aula" icon="pi pi-plus" />
-      </Link>
-    </div>
-  );
+  // const header = (
+  //   <div className="table-header">
+  //     <Link to="/ifba/add-lesson">
+  //       <Button label="Nova Aula" icon="pi pi-plus" />
+  //     </Link>
+  //   </div>
+  // );
 
   return (
     <div className="list-table-div">
@@ -37,7 +37,7 @@ const LessonTable = ({
         emptyMessage="Nenhum registro encontrado."
         stripedRows
         showGridlines
-        header={header}
+        // header={header}
         tableStyle={{ minWidth: "80vw", maxWidth: "100vw" }}
         paginator
         rows={10}

@@ -77,7 +77,7 @@ const ListUserPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Usuário" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
