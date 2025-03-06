@@ -43,8 +43,14 @@ const HomePage = () => {
 
     useEffect(() => {
         validUrl();
+        validToken();
         setPageTitle(convertUrl());
     }, [page]);
+
+    const validToken = () => {
+        if(sessionStorage.getItem("token") == null)
+            navigate("/");
+    }
 
     const validUrl = () => {
         if (!Object.keys(pageMenuOptions).includes(page)) {

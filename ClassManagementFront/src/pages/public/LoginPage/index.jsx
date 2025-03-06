@@ -18,26 +18,36 @@ const LogInPage = () => {
         toast.current?.show({ severity: severity, summary: summary, detail: message, life: 3000 });
     };
 
-    async function login() {
-        try {
-            const response = await authUser(user, password);
-
-            if (response.token) {
-                sessionStorage.setItem('token', response.token);
-                setLogged(true);
-                show('success', 'Logado', 'Bem Vindo!');
-                console.log('Login bem-sucedido');
-                setTimeout(() => {
-                    navigate('/ifba/home');
-                }, 2500);
-            } else {
-                show('error', 'Erro', 'Credenciais inválidas');
-                console.log('Credenciais inválidas');
-            }
-        } catch (error) {
-            show('error', 'Erro', 'Ocorreu um erro ao tentar logar');
-            console.log('Erro ao tentar logar', error);
+    const validData = () => {
+        if(!user || !password){
+            show('info', 'Dados Inválidos', 'Por favor, preencha todos os campos!');
+            return false;
         }
+
+        return true;
+    }
+
+    async function login() {
+        if(validData())
+            try {
+                const response = await authUser(user, password);
+
+                if (response.token) {
+                    sessionStorage.setItem('token', response.token);
+                    setLogged(true);
+                    show('success', 'Logado', 'Bem Vindo!');
+                    console.log('Login bem-sucedido');
+                    setTimeout(() => {
+                        navigate('/ifba/home');
+                    }, 2500);
+                } else {
+                    show('error', 'Erro', 'Credenciais inválidas');
+                    console.log('Credenciais inválidas');
+                }
+            } catch (error) {
+                show('error', 'Erro', 'Ocorreu um erro ao tentar logar');
+                console.log('Erro ao tentar logar', error);
+            }
     }
 
     return (
@@ -71,7 +81,7 @@ const LogInPage = () => {
                         />
                     </div>
 
-                    <Button onClick={() => login()} label="Logar" rounded size="large" />
+                    <Button className="thematic" onClick={() => login()} label="Logar" rounded size="large" />
                 </div>
             </div>
         </section>
