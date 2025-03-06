@@ -39,7 +39,7 @@
 -- (3, 'Roberto Lima')
 -- ON CONFLICT (matricula) DO NOTHING;
 
--- -- -- Inserir dias da semana
+-- -- Inserir dias da semana
 -- INSERT INTO dias_semana (id, nome) VALUES
 -- (1, 'Segunda-feira'),
 -- (2, 'Terça-feira'),
