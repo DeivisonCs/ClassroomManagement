@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./styles.css";
-import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
 import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
+import { Toast } from "primereact/toast";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { lessonService } from "../../../../services/lessonService";
 import { classScheduleService } from "../../../../services/classScheduleService";
-import { subjectService } from "../../../../services/subjectService";
 import { classService } from "../../../../services/classService";
 import { classroomService } from "../../../../services/classroomService";
-import { weekdayService } from "../../../../services/weekdayService";
-import { timeSlotService } from "../../../../services/timeSlotService";
+import { lessonService } from "../../../../services/lessonService";
 import { professorService } from "../../../../services/professorService";
+import { subjectService } from "../../../../services/subjectService";
+import { timeSlotService } from "../../../../services/timeSlotService";
+import { weekdayService } from "../../../../services/weekdayService";
+import "./styles.css";
 
 const AddLessonPage = () => {
   const navigate = useNavigate();
@@ -125,9 +125,12 @@ const AddLessonPage = () => {
       return false;
     }
 
+    console.log("Professor selecionado:", selectedProfessor);
+
     if (!selectedProfessor) {
-      showToast("warn", "Formulário Inválido", "Selecione um professor");
-      return false;
+      showToast("warning", "Atenção", "Selecione um professor para continuar");
+      setLoading(false);
+      return;
     }
 
     return true;
@@ -157,7 +160,9 @@ const AddLessonPage = () => {
         salaId: selectedClassroom.id,
         diaSemanaId: selectedWeekday.id,
         horarioId: selectedTimeSlot.id,
-        professorMatricula: selectedProfessor.matricula || selectedProfessor.id,
+        professorMatricula: selectedProfessor
+          ? selectedProfessor.matricula || selectedProfessor.id
+          : null,
       };
 
       console.log("Criando programação:", scheduleData);
