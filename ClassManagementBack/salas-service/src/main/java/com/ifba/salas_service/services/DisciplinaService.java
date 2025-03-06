@@ -15,6 +15,7 @@ import com.ifba.salas_service.models.Professor;
 import com.ifba.salas_service.repositories.DisciplinaRepository;
 import com.ifba.salas_service.repositories.ProfessorRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,17 +25,29 @@ public class DisciplinaService {
     private final DisciplinaRepository disciplinaRepository;
     private final ProfessorRepository professorRepository;
 
+    @Transactional
     public DisciplinaResponseDTO criarDisciplina(DisciplinaRequestDTO dto) {
-        // Carregar professores
         List<Professor> professores = carregarProfessores(dto.getProfessorMatricula());
-
-        // Converter para entidade
-        Disciplina disciplina = DisciplinaMapper.toEntity(dto, professores);
-
-        // Salvar
+        
+        Disciplina disciplina = new Disciplina();
+        disciplina.setNome(dto.getNome());
+        
+        if (disciplina.getProfessores() == null) {
+            disciplina.setProfessores(new ArrayList<>());
+        }
+        
+        
+        for (Professor professor : professores) {
+            disciplina.getProfessores().add(professor);
+            
+            if (professor.getDisciplinas() == null) {
+                professor.setDisciplinas(new ArrayList<>());
+            }
+            professor.getDisciplinas().add(disciplina);
+        }
+        
         Disciplina saved = disciplinaRepository.save(disciplina);
-
-        // Converter para ResponseDTO
+        
         return DisciplinaMapper.toResponseDTO(saved);
     }
 
@@ -73,10 +86,10 @@ public class DisciplinaService {
         disciplinaRepository.deleteById(id);
     }
 
-    private List<Professor> carregarProfessores(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) {
+    private List<Professor> carregarProfessores(List<Long> matriculas) {
+        if (matriculas == null || matriculas.isEmpty()) {
             return new ArrayList<>();
         }
-        return professorRepository.findAllById(ids);
+        return professorRepository.findAllById(matriculas);
     }
 }

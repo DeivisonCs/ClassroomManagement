@@ -13,9 +13,9 @@ import com.ifba.ms_user.dto.UserSummary;
 import com.ifba.ms_user.models.Account;
 import com.ifba.ms_user.models.Occupation;
 import com.ifba.ms_user.models.Person;
-import com.ifba.ms_user.repositories.PersonRepository;
 import com.ifba.ms_user.repositories.AccountRepository;
 import com.ifba.ms_user.repositories.OccupationRepository;
+import com.ifba.ms_user.repositories.PersonRepository;
 
 @Service
 public class AccountService {
@@ -24,12 +24,14 @@ public class AccountService {
 	private final PersonRepository personRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final OccupationRepository occupationRepository;
+	private final UserEventPublisher userEventPublisher;
 	
-	public AccountService(AccountRepository accountRepository, PersonRepository personRepository, PasswordEncoder passwordEncoder, OccupationRepository occupationRepository) {
+	public AccountService(AccountRepository accountRepository, PersonRepository personRepository, PasswordEncoder passwordEncoder, OccupationRepository occupationRepository, UserEventPublisher userEventPublisher) {
 		this.accountRepository = accountRepository;
 		this.personRepository = personRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.occupationRepository = occupationRepository;
+		this.userEventPublisher = userEventPublisher;
 	}
 	
 	@Transactional
@@ -60,6 +62,12 @@ public class AccountService {
 		);
 
 	    account = accountRepository.save(account);
+
+		if ("TEACHER".equals(occupation.getName())) {
+			userEventPublisher.publishProfessorCreatedEvent(account);
+		} else if ("STUDENT".equals(occupation.getName())) {
+			userEventPublisher.publishStudentCreatedEvent(account);
+		}
 	
 	   return new UserSummary(account);
     }

@@ -7,5 +7,5 @@ import com.ifba.salas_service.models.Professor;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
-    
+    boolean existsByMatricula(Long matricula);
 }

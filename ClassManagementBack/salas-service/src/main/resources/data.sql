@@ -1,13 +1,13 @@
--- -- DO $$
--- -- BEGIN
--- --     IF NOT EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'aluno_turma') THEN
--- --         CREATE TABLE aluno_turma (
--- --             aluno_id BIGINT REFERENCES alunos(matricula),
--- --             turma_id BIGINT REFERENCES turmas(id),
--- --             PRIMARY KEY (aluno_id, turma_id)
--- --         );
--- --     END IF;
--- -- END $$;
+-- DO $$
+-- BEGIN
+--     IF NOT EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'aluno_turma') THEN
+--         CREATE TABLE aluno_turma (
+--             aluno_id BIGINT REFERENCES alunos(matricula),
+--             turma_id BIGINT REFERENCES turmas(id),
+--             PRIMARY KEY (aluno_id, turma_id)
+--         );
+--     END IF;
+-- END $$;
 
 -- -- Inserir disciplinas
 -- INSERT INTO disciplinas (id, nome) VALUES
@@ -39,7 +39,7 @@
 -- (3, 'Roberto Lima')
 -- ON CONFLICT (matricula) DO NOTHING;
 
--- -- Inserir dias da semana
+-- -- -- Inserir dias da semana
 -- INSERT INTO dias_semana (id, nome) VALUES
 -- (1, 'Segunda-feira'),
 -- (2, 'Terça-feira'),

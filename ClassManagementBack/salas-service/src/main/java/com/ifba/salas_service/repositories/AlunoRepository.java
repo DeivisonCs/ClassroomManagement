@@ -7,4 +7,5 @@ import com.ifba.salas_service.models.Aluno;
 
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
+   boolean existsByMatricula(Long matricula);
    }
