@@ -3,15 +3,20 @@ import './styles.css';
 import { Link } from "react-router-dom";
 
 const HeaderComponent = () => {
+    const logout = () => {
+        sessionStorage.removeItem("token");
+    }
+    
     const [menuActive, setMenuActive] = useState(false);
     const menuOptions = [
-        {label: 'Perfil', icon: 'user', linkTo: ''},
-        {label: 'Sair', icon: 'sign-out', linkTo: '/'}
+        // {label: 'Perfil', icon: 'user', linkTo: ''},
+        {label: 'Sair', icon: 'sign-out', linkTo: '/', onClick: logout}
     ];
 
+    
     return (
         <header id="main-header">
-            <Link to="/ifba/home" className="header-emblem-icon-span"><img src="/SchoolEmblem.ico" alt="School Emblem" /></Link>
+            <Link to="/ifba/home" className="header-emblem-icon-span"><img src="/IFBA_ICON.ico" alt="IFBA icon" /></Link>
 
             <div 
                 onClick={() => setMenuActive(prev => !prev)} 
@@ -25,7 +30,7 @@ const HeaderComponent = () => {
             <div className={`menu-options-div ${menuActive ? 'active-menu' : ''}`}>
                 {menuOptions.map((option, index) => {
                     return ( 
-                        <Link key={index} to={option.linkTo} className="menu-option">
+                        <Link key={index} to={option.linkTo} className="menu-option" onClick={() => option.onClick()}>
                             <span className={`pi pi-${option.icon}`}></span>
                             {option.label}
                         </Link>

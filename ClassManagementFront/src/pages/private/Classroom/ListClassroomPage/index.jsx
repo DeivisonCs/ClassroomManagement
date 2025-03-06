@@ -47,7 +47,7 @@ const ListClassroomPage = () => {
         return (
             <div className="actions-div">
                 <Button 
-                    className="tematic"
+                    className="thematic"
                     tooltip="Remover Sala" 
                     tooltipOptions={{ position: 'top' }} 
                     icon="pi pi-trash"
@@ -78,13 +78,13 @@ const ListClassroomPage = () => {
     };
     
     // Adicionado botão para adicionar novas salas
-    const header = (
-        <div className="table-header">
-            <Link to="/classrooms/add">
-                <Button label="Nova Sala" icon="pi pi-plus" />
-            </Link>
-        </div>
-    );
+    // const header = (
+    //     <div className="table-header">
+    //         <Link to="/classrooms/add">
+    //             <Button label="Nova Sala" icon="pi pi-plus" />
+    //         </Link>
+    //     </div>
+    // );
 
     return(
     <>
@@ -102,7 +102,7 @@ const ListClassroomPage = () => {
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
                 showGridlines
-                header={header}
+                // header={header}
                 tableStyle={{ minWidth: '80vw', maxWidth: '100vw'}}
                 paginator 
                 rows={5}
